@@ -1,0 +1,46 @@
+﻿<div class="col-md-2 p-0 mt-4 ml-3">
+    <label for="ddlYear">
+        โปรดเลือกปี
+        <select class="js-example-basic-single js-states form-control"
+                id="ddlYear"
+                style="width:100%">
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+            <option value="2031">2031</option>
+        </select>
+    </label>
+</div>
+
+<div class="col-md-2 p-0 mt-4 mr-2">
+    <label for="ddlRegion">
+        โปรดเลือกภาค
+        <select class="js-example-basic-single js-states form-control"
+                id="ddlRegion"
+                asp-items="@ViewBag.Regions"
+                style="width:100%">
+            <option value="">ทั้งหมด</option>
+        </select>
+    </label>
+</div>
+<div class="col-md-2 p-0 mt-4 ml-2">
+    <label for="ddlBranch">
+        โปรดเลือกสาขา
+        <select class="js-example-basic-single js-states form-control"
+                id="ddlBranch"
+                asp-items="@ViewBag.Branches"
+                style="width:100%">
+            <option value="">ทั้งหมด</option>
+        </select>
+    </label>
+</div>
+<div class="col-md-3 pt-3 ml-4 mt-2">
+    <button class="btn btn-outline-cyan" id="btnSearch">Search</button>
+</div>

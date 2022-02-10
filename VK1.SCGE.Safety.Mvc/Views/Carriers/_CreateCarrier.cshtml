@@ -1,0 +1,18 @@
+﻿@model Carrier
+<form asp-action="Create" method="post" class="needs-validation" novalidate>
+    <div class="row">
+        <div class="col-md-3 md-form">
+            <label for="Name">ชื่อผู้รับเหมา</label>
+            <input asp-for="Name" class="form-control" required />
+            <div class="invalid-feedback">
+                กรุณากรอกชื่อผู้รับเหมา!
+            </div>
+        </div>
+        <div class="col-md-4">
+            <button asp-action="Create" class="btn btn-primary" id="btnAdd">
+                <i class="far fa-save"></i>
+                Add
+            </button>
+        </div>
+    </div>
+</form>

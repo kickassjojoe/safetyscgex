@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card mt-3">
+    <div class="card-body py-0">
+        <div class="row pt-2">
+            <span class="text-muted"><i class="fa fa-filter"></i> ค้นหาโดย </span>
+        </div>
+        <div class="form-row">
+            <div class="col-md-2 mt-4">
+                <label>ค้นหาโดยตัวย่อสาขา</label>
+            </div>
+            @*<input id="datefrom" type="text" name="datefrom" value="@ViewBag.From" />
+                <input id="dateto" type="text" name="dateto" value="@ViewBag.To" />*@
+            <div class="col-md-3 md-form p-0 mx-3" style="margin-top:0px">
+                <select class="mdb-select md-form p-0" name="branchCode" id="branchCode"
+                        asp-items="@ViewBag.Branches"
+                        searchable="Search here..">
+                    <option value="" selected>ทั้งหมด</option>
+                </select>
+                <label class="mdb-main-label">สาขา</label>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-outline-cyan" id="btnSearch">Search</button>
+            </div>
+
+
+        </div>
+        @*<div id="sms"><partial name="_Messages" /></div>*@
+    </div>
+</div>
+<div class="card mt-1" id="card">
+    <div class="card-body">
+        <div id="data">
+            <partial name="pv_Table" />
+        </div>
+    </div>
+</div>
+
+
+@section Styles{
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.min.css" rel="stylesheet" />
+    <style>
+        table tbody tr .odd {
+            background-color: gray;
+        }
+    </style>
+}
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        //
+        $(document).ready(function () {
+            $('.mdb-select').materialSelect({});
+
+            $('#basicTable').DataTable();
+            
+            fnAlert('@TempData["Msg"]');
+
+        });
+
+
+        //2
+        $('#btnSearch').click(() => {
+            //if ($('#datefrom').val() === '') {
+            //    alertify.error('กรุณาเลือกวันที่');
+            //    return false;
+            //}
+
+            $('#btnSearch').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...').addClass('disabled');
+
+            $('#sms').hide();
+
+            //const from = $('#datefrom').val();
+            //const to = $('#dateto').val();
+            const branchCode = $('#branchCode').val();
+            const url = `/PartSixes/GetInvestigate?branchCode=${branchCode}`;
+
+            $.get(url).then(res => {
+                $('#data').html(res);
+
+                $('#btnSearch').html('Search')
+                    .removeClass('disabled')
+                    .addClass('btn btn-outline-cyan');
+
+                $('#basicTable').DataTable();
+                $('.dataTables_length').addClass('bs-select');
+
+               // alertify.success('Done');
+            });
+        })
+
+        //3
+        function deleteItem(id) {
+            alertify.confirm('Delete', 'Are you sure you want to delete this (Y/N)?',
+                function () {
+                    const url = `/PartSixes/Delete/${id}`;
+                    $.get(url).then((res) => {
+                        if (res.message === 'DeleteOK') {
+                            const from = $('#datefrom').val();
+                            const to = $('#dateto').val();
+                            const getUrl = `/PartSixes/GetInvestigate?datefrom=${from}&&dateto=${to}`;
+                            $.get(getUrl).then(res => {
+                                $('#data').html(res);
+                                alertify.success('ลบข้อมูลสำเร็จ');
+                            })
+                        } else {
+                            alertify.message('ไม่สามารถลบข้อมูลได้ โปรดตรวจสอบกับ IT Support',0);
+                        }
+                    })
+                },
+                function () {
+                    alertify.error('ยกเลิกการทำงาน')
+                });
+        }
+
+
+    </script>
+}
+

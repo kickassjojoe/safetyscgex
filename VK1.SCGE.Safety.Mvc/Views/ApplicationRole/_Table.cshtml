@@ -1,0 +1,25 @@
+﻿<table id="datatable" class="display compact table-hover w-100">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>User</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int itemNo = 1;}
+        @foreach (var item in ViewBag.Role) {
+            <tr>
+                <td>@(itemNo++)</td>
+                <td>@item.RoleName</td>
+                <td>@item.Description</td>
+                <td>@item.NumberOfUsers</td>
+                <td>
+                    <a title="ลบ" class="text-dark text-lg-center" onclick="return deleteItem('@item.Id')"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

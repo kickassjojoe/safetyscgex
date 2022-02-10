@@ -1,0 +1,735 @@
+﻿@model InvestigateCard
+
+<h3 class="mt-2">รายการสอบสวนอุบัติเหตุ</h3>
+<form class="needs-validation" novalidate method="post" enctype="multipart/form-data" id="investigateForm">
+    <section class="border border-default px-3 pb-4">
+        <partial name="pv_PartOne" />
+    </section>
+    <section class="border border-default px-3 pb-4">
+        <partial name="pv_PartTwo" />
+    </section>
+    <section class="border border-default px-3 pb-4">
+        <partial name="pv_PartThree" />
+    </section>
+    <section class="border border-default px-3 pb-4">
+        <partial name="pv_PartFour" />
+    </section>
+    <section class="border border-default px-3 pb-4" style="height:1800px">
+        <partial name="pv_PartFive" />
+    </section>
+
+    <div class="text-center">
+        <button asp-action="Create" asp-controller="Investigates" class="btn btn-primary" id="btnSave">
+            <i class="fas fa-save"></i> Save
+        </button>
+    </div>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ระบบจะทำการบันทึกข้อมูลและไม่สามารถแก้ไขได้  คุณแน่ใจว่าจะบันทึกข้อมูลนี้หรือไม่?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnCancelSave">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btnConfirmSave">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Add Vehicle -->
+<div class="modal fade" id="modalVehicleForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">เพิ่มทะเบียนรถ</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="form-row">
+                    <div class="col-md-6 md-form mb-3">
+                        <input type="text" id="plateNumber" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="plateNumber">ทะเบียนรถ</label>
+                    </div>
+                    <div class="col-md-6 md-form mb-3" style="margin-top:0px">
+                        <select class="mdb-select md-form p-0"
+                                asp-items="@ViewBag.Regions"
+                                id="regionId"
+                                searchable="Search here..">
+                        </select>
+                        <label class="mdb-main-label">ภาค</label>
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 md-form mb-3" style="margin-top:0px">
+                        <select class="mdb-select md-form p-0"
+                                asp-items="@ViewBag.Branches"
+                                id="branchCode"
+                                searchable="Search here..">
+                        </select>
+                        <label class="mdb-main-label">สาขา</label>
+                    </div>
+                    <div class="col-md-6 md-form mb-3">
+                        <input type="text" id="gps" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="gps">GPS</label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 md-form mb-3">
+                        <input type="text" id="brand" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="brand">ยี่ห้อรถ</label>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="control-label">ประเภทรถ</label>
+                        <div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="radioPickup" name="VehicleType" class="custom-control-input" value="Pickup" checked>
+                                <label class="custom-control-label" for="radioPickup">ปิกอัพ</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="radioMotocycle" name="VehicleType" class="custom-control-input" value="Motocycle">
+                                <label class="custom-control-label" for="radioMotocycle">มอเตอร์ไซด์</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-deep-orange" id="btnSaveVehicle">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Add Employee -->
+<div class="modal fade" id="modalEmployeeForm" tabindex="-1" role="dialog" aria-labelledby="myModalEmployee"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">เพิ่มพนักงาน</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="form-row">
+                    <div class="col-md-12 md-form mb-3">
+                        <input type="text" id="employeeName" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="employeeName">ชื่อ-สกุล</label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 md-form mb-3" style="margin-top:0px">
+                        <select class="mdb-select md-form p-0"
+                                id="position" name="position">
+                            <option value="Sub.SD">Sub.SD</option>
+                            <option value="Sub.SR">Sub.SR</option>
+                            <option value="Sub.Sorter">Sub.Sorter</option>
+                        </select>
+                        <label class="mdb-main-label">ตำแหน่ง</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-deep-orange" id="btnSaveEmployee">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+
+    <link href="~/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+
+    <!-- Material Design Bootstrap -->
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.min.css" rel="stylesheet" />
+    <style>
+        /*body {*/
+        /* Margin bottom by footer height */
+        /*margin-bottom: 60px;*/
+        /*font-family: Prompt, sans-serif;*/
+        /*min-height: 75rem;*/
+        /*padding-top: 4.5rem;*/
+        /*}*/
+
+        a:hover {
+            cursor: pointer
+        }
+
+        .section-preview {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+        }
+
+        div.form-row {
+            height: 70px
+        }
+
+        .md-form {
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+
+        a {
+            cursor: pointer;
+        }
+    </style>
+
+}
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/jquery.datetimepicker.full.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="~/lib/bootstrap/dist/js/mdb.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.mdb-select').materialSelect({
+           });
+
+            $('#PartOne_PositionId').materialSelect({
+                validate: true,
+                labels: {
+                    //validFeedback: 'AAACorrect choice',
+                    invalidFeedback: 'โปรดเลือกตำแหน่ง'
+                }
+            });
+
+            $('#caseDate').datetimepicker({
+                timepicker: false,
+                format: 'Y/m/d',
+            });
+
+            $('#inspectionDate').datetimepicker({
+                timepicker: false,
+                format: 'Y/m/d',
+            });
+
+            fnAlert('@TempData["Msg"]');
+
+            //Get carrier list to autocomplete
+            const urlTest = `/Investigates/GetCarrierList`;
+            $.get(urlTest).then(res => {
+                $('#form-autocomplete').mdbAutocomplete({
+                    data: res
+                });
+            })
+            //
+
+        });
+      
+        //Part 1
+        function formVehicleModal() {
+            $('#modalVehicleForm').modal('show');
+        }
+        function formEmployeeModal() {
+            $('#modalEmployeeForm').modal('show');
+        }
+        $('#modalEmployeeForm').on('click', '#btnSaveEmployee', () => {
+            const employeeName = $('#modalEmployeeForm #employeeName').val();
+            const position = $('#modalEmployeeForm #position').val();
+            if (employeeName === '') {
+                alertify.message('กรุณากรอกชื่อ-สกุล', 0);
+                return false;
+            }
+            const url = `Investigates/AddEmployee?employeeName=${employeeName}&position=${position}`;
+            $.post(url).then(res => {
+                if (res.message === 'Error') {
+                    alertify.message(res.error, 0);
+                } else {
+                    var x = document.getElementById("PartOne_EmployeeCode");
+                    var option = document.createElement("option");
+                    option.value = res.employeeCode;
+                    option.text = res.employeeName;
+                    x.add(option);
+                    alertify.success('บันทึกผ่าน');
+                }
+                $('#modalEmployeeForm #employeeName').val('');
+                $('#modalEmployeeForm').modal('hide');
+
+            })
+
+        })
+        function RadioAccidentOtherClick() {
+            //1
+            const elementsTransport = document.getElementsByName('radioTransport');
+
+            for (var i = 0; i < elementsTransport.length; i++) {
+                elementsTransport[i].checked = false;
+                elementsTransport[i].disabled = true;
+            }
+
+            const elementsOther = document.getElementsByName('radioOther');
+            for (var i = 0; i < elementsOther.length; i++) {
+                elementsOther[i].disabled = false;
+            }
+            elementsOther[0].checked = true;
+
+            //2 c500,c600,c700,c900,v00 => enable
+            const elementC500 = document.getElementsByName('c500');
+            for (var i = 0; i < elementC500.length; i++) {
+                elementC500[i].disabled = false;
+            }
+            const elementC600 = document.getElementsByName('c600');
+            for (var i = 0; i < elementC600.length; i++) {
+                elementC600[i].disabled = false;
+            }
+            const elementC700 = document.getElementsByName('c700');
+            for (var i = 0; i < elementC700.length; i++) {
+                elementC700[i].disabled = false;
+            }
+            const elementC900 = document.getElementsByName('c900');
+            for (var i = 0; i < elementC900.length; i++) {
+                elementC900[i].disabled = false;
+            }
+            const elementV00 = document.getElementsByName('v00');
+            for (var i = 0; i < elementV00.length; i++) {
+                elementV00[i].disabled = false;
+            }
+
+            //3 c100,c200,c300,c400,c800,u00 => disable
+            const elementC100 = document.getElementsByName('c100');
+            for (var i = 0; i < elementC100.length; i++) {
+                elementC100[i].disabled = true;
+            }
+            const elementC200 = document.getElementsByName('c200');
+            for (var i = 0; i < elementC200.length; i++) {
+                elementC200[i].disabled = true;
+            }
+            const elementC300 = document.getElementsByName('c300');
+            for (var i = 0; i < elementC300.length; i++) {
+                elementC300[i].disabled = true;
+            }
+            const elementC400 = document.getElementsByName('c400');
+            for (var i = 0; i < elementC400.length; i++) {
+                elementC400[i].disabled = true;
+            }
+            const elementC800 = document.getElementsByName('c800');
+            for (var i = 0; i < elementC800.length; i++) {
+                elementC800[i].disabled = true;
+            }
+            const elementU00 = document.getElementsByName('u00');
+            for (var i = 0; i < elementU00.length; i++) {
+                elementU00[i].disabled = true;
+            }
+        }
+        function RadioAccidentTransportClick() {
+            //1
+            const elementsOther = document.getElementsByName('radioOther');
+            for (var i = 0; i < elementsOther.length; i++) {
+                elementsOther[i].checked = false;
+                elementsOther[i].disabled = true;
+            }
+
+            const elementsTransport = document.getElementsByName('radioTransport');
+            for (var i = 0; i < elementsTransport.length; i++) {
+                elementsTransport[i].disabled = false;
+            }
+            elementsTransport[0].checked = true;
+
+            //2 c500,c600,c700,c900,v00 => disabled
+            const elementC500 = document.getElementsByName('c500');
+            for (var i = 0; i < elementC500.length; i++) {
+                elementC500[i].disabled = true;
+            }
+            const elementC600 = document.getElementsByName('c600');
+            for (var i = 0; i < elementC600.length; i++) {
+                elementC600[i].disabled = true;
+            }
+            const elementC700 = document.getElementsByName('c700');
+            for (var i = 0; i < elementC700.length; i++) {
+                elementC700[i].disabled = true;
+            }
+            const elementC900 = document.getElementsByName('c900');
+            for (var i = 0; i < elementC900.length; i++) {
+                elementC900[i].disabled = true;
+            }
+            const elementV00 = document.getElementsByName('v00');
+            for (var i = 0; i < elementV00.length; i++) {
+                elementV00[i].disabled = true;
+            }
+
+            //3 c100,c200,c300,c400,c800,u00 => enabled
+            const elementC100 = document.getElementsByName('c100');
+            for (var i = 0; i < elementC100.length; i++) {
+                elementC100[i].disabled = false;
+            }
+            const elementC200 = document.getElementsByName('c200');
+            for (var i = 0; i < elementC200.length; i++) {
+                elementC200[i].disabled = false;
+            }
+            const elementC300 = document.getElementsByName('c300');
+            for (var i = 0; i < elementC300.length; i++) {
+                elementC300[i].disabled = false;
+            }
+            const elementC400 = document.getElementsByName('c400');
+            for (var i = 0; i < elementC400.length; i++) {
+                elementC400[i].disabled = false;
+            }
+            const elementC800 = document.getElementsByName('c800');
+            for (var i = 0; i < elementC800.length; i++) {
+                elementC800[i].disabled = false;
+            }
+            const elementU00 = document.getElementsByName('u00');
+            for (var i = 0; i < elementU00.length; i++) {
+                elementU00[i].disabled = false;
+            }
+       }
+        $('#modalVehicleForm').on('click', '#btnSaveVehicle', () => {
+            const plateNumber = $('#modalVehicleForm #plateNumber').val();
+            const regionId = $('#modalVehicleForm #regionId').val();
+            const branchCode = $('#modalVehicleForm #branchCode').val();
+            const gps = $('#modalVehicleForm #gps').val();
+            const brand = $('#modalVehicleForm #brand').val();
+            const vehicleType = $('#modalVehicleForm #radioPickup').is(':checked') ? 'pickup' : 'motocycle';
+
+            if (plateNumber === '' || regionId === '' || branchCode === '' || vehicleType === '') {
+                alertify.message('โปรดกรอกข้อมูลให้ครบถ้วน', 0);
+                return false;
+            }
+            const url = `/Investigates/AddVehicle?plateNumber=${plateNumber}&&regionId=${regionId}&&branchCode=${branchCode}&&gps=${gps}&&brand=${brand}&&vehicleType=${vehicleType}`;
+
+            $.post(url).then(res => {
+                if (res.message === 'Error') {
+                    alert(res.error);
+                } else {
+                    debugger;
+                    var x = document.getElementById("PartOne_VehicleId");
+                    var option = document.createElement("option");
+                    option.text = res.plateNumber;
+                    option.value = res.vehicleId;
+                    x.add(option);
+                    alert('เพิ่ม ' + res.vehicleId + ' : ' + res.plateNumber + ' สำเร็จ!');
+                }
+                $('#modalVehicleForm').modal('hide');
+                $('#modalVehicleForm #plateNumber').val('');
+                $('#modalVehicleForm #gps').val('');
+                $('#modalVehicleForm #brand').val('');
+
+            }).fail(err => {
+                alert(err.error);
+            })
+        });
+        ////
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        if ($('#PartOne_PositionId').val() === null) {
+                            $('.needs-validation').find('.valid-feedback').hide();
+                            $('.needs-validation').find('.invalid-feedback').show();
+                           $('#PartOne_PositionId').val('').prop('placeholder', 'sssโปรดเลือก')
+                        } else {
+                           // $('.needs-validation').find('.valid-feedback').show();
+                            $('.needs-validation').find('.invalid-feedback').hide();
+                        }
+                    form.classList.add('was-validated');
+                    }, false);
+                });
+
+            }, false);
+        })();
+        function ChooseCarrier() {
+            $('#form-autocomplete').prop('required', true);
+            $('#form-autocomplete').prop('disabled', false);
+            $('#form-autocomplete').addClass('was-validated');
+            alertify.error('โปรดกรอกผรม.ขนส่ง')
+
+            $('#PartOne_CompanyName').removeClass('was-validated');
+            $('#PartOne_CompanyName').prop('required', false);
+            $('#PartOne_CompanyName').prop('disabled', true);
+        }
+        function Check() {
+            $('#PartOne_CompanyName').addClass('was-validated');
+            $('#PartOne_CompanyName').prop('required', true);
+            $('#PartOne_CompanyName').prop('disabled', false);
+            alertify.error('โปรดกรอกชื่อบริษัทฯSub หรืออื่นๆ')
+
+            $('#form-autocomplete').prop('required', false);
+            $('#form-autocomplete').prop('disabled', true);
+            $('#form-autocomplete').removeClass('was-validated');
+
+        }
+        function CheckShift() {
+            $('#PartOne_Shift').addClass('was-validated');
+            $('#PartOne_Shift').prop('required', true);
+            alertify.error('โปรดกรอกข้อมูลช่องกะอื่น ๆ')
+        }
+        //remove class
+        (function () {
+            $('#materialInline1').click(() => {
+                $('#PartOne_CompanyName').removeClass('was-validated');
+                $('#PartOne_CompanyName').prop('required', false);
+                $('#PartOne_CompanyName').prop('disabled', true);
+
+                $('#form-autocomplete').prop('required', false);
+                $('#form-autocomplete').prop('disabled', true);
+                $('#form-autocomplete').removeClass('was-validated');
+            })
+            $('#materialInline2').click(() => {
+                $('#PartOne_CompanyName').removeClass('was-validated');
+                $('#PartOne_CompanyName').prop('required', false);
+                $('#PartOne_CompanyName').prop('disabled', true);
+
+                $('#form-autocomplete').prop('required', false);
+                $('#form-autocomplete').prop('disabled', true);
+                $('#form-autocomplete').removeClass('was-validated');
+            })
+            $('#materialInline5').click(() => {
+                $('#PartOne_Shift').removeClass('was-validated');
+                $('#PartOne_Shift').prop('required', false);
+            })
+            $('#materialInline6').click(() => {
+                $('#PartOne_Shift').removeClass('was-validated');
+                $('#PartOne_Shift').prop('required', false);
+            })
+        })();
+        //Part 2
+        function CheckIsProduct() {
+            $('#PartTwo_ProductQty').addClass('was-validated');
+            $('#PartTwo_ProductQty').prop('required', true);
+            alertify.error('โปรดกรอกจำนวนสินค้า')
+        }
+        function CheckIsDamage() {
+            $('#PartTwo_ProductDamageQty').addClass('was-validated');
+            $('#PartTwo_ProductDamageQty').prop('required', true);
+            $('#PartTwo_ProductDamageValue').addClass('was-validated');
+            $('#PartTwo_ProductDamageValue').prop('required', true);
+            alertify.error('โปรดกรอกจำนวนสินค้า และมูลค่าสินค้า')
+        }
+        function CheckEffect() {
+            $('#PartTwo_ProductPostpone').addClass('was-validated');
+            $('#PartTwo_ProductPostpone').prop('required', true);
+            alertify.error('โปรดกรอกจำนวนสินค้า')
+        }
+        function CheckEmpInjure() {
+            $('#PartTwo_EmpInjureDescription').addClass('was-validated');
+            $('#PartTwo_EmpInjureDescription').prop('required', true);
+            alertify.error('โปรดกรอกสาเหตุ')
+        }
+        function CheckEmpStopWork() {
+            $('#PartTwo_StopWorking').addClass('was-validated');
+            $('#PartTwo_StopWorking').prop('required', true);
+            alertify.error('โปรดกรอกจำนวน')
+        }
+        function CheckPartiesInjure() {
+            $('#PartTwo_PartiesInjureDescription').addClass('was-validated');
+            $('#PartTwo_PartiesInjureDescription').prop('required', true);
+            alertify.error('โปรดกรอกสาเหตุ')
+        }
+        function CheckPartiesDie() {
+            $('#PartTwo_PartiesDie').addClass('was-validated');
+            $('#PartTwo_PartiesDie').prop('required', true);
+            alertify.error('โปรดกรอกจำนวน')
+        }
+        function CheckThirdPartyInjure() {
+            $('#PartTwo_ThirdPartiesInjureDescription').addClass('was-validated');
+            $('#PartTwo_ThirdPartiesInjureDescription').prop('required', true);
+            alertify.error('โปรดกรอกสาเหตุ')
+        }
+        function CheckThirdPartyDie() {
+            $('#PartTwo_ThirdPartiesDie').addClass('was-validated');
+            $('#PartTwo_ThirdPartiesDie').prop('required', true);
+            alertify.error('โปรดกรอกจำนวน')
+        }
+        function CheckTruckDamage() {
+            $('#PartTwo_TruckDamageDescription').addClass('was-validated');
+            $('#PartTwo_TruckDamageDescription').prop('required', true);
+            alertify.error('โปรดกรอกสาเหตุ')
+        }
+        function CheckPartyDamage() {
+            $('#PartTwo_PartiesDamageDescription').addClass('was-validated');
+            $('#PartTwo_PartiesDamageDescription').prop('required', true);
+            alertify.error('โปรดกรอกสาเหตุ')
+        }
+        function CheckEquipmentDamage() {
+            $('#PartTwo_EquipmentDamageDescription').addClass('was-validated');
+            $('#PartTwo_EquipmentDamageDescription').prop('required', true);
+            alertify.error('โปรดกรอกสาเหตุ')
+        }
+        function CheckIsNormal() {
+            $('#PartTwo_TruckInspectionDescription').addClass('was-validated');
+            $('#PartTwo_TruckInspectionDescription').prop('required', true);
+            alertify.error('โปรดกรอกสาเหตุ')
+        }
+        (function () {
+            $('#isProductInline1').click(() => {
+                $('#PartTwo_ProductQty').removeClass('was-validated');
+                $('#PartTwo_ProductQty').prop('required', false);
+            })
+            $('#isDamageInline1').click(() => {
+                $('#PartTwo_ProductDamageQty').removeClass('was-validated');
+                $('#PartTwo_ProductDamageQty').prop('required', false);
+                $('#PartTwo_ProductDamageValue').removeClass('was-validated');
+                $('#PartTwo_ProductDamageValue').prop('required', false);
+            })
+            $('#effiectInline1').click(() => {
+                $('#PartTwo_ProductPostpone').removeClass('was-validated');
+                $('#PartTwo_ProductPostpone').prop('required', false);
+            })
+            //
+            $('#empInjure1').click(() => {
+                $('#PartTwo_EmpInjureDescription').removeClass('was-validated');
+                $('#PartTwo_EmpInjureDescription').prop('required', false);
+                $('#PartTwo_StopWorking').removeClass('was-validated');
+                $('#PartTwo_StopWorking').prop('required', false);
+            })
+            $('#empInjure2').click(() => {
+                $('#PartTwo_StopWorking').removeClass('was-validated');
+                $('#PartTwo_StopWorking').prop('required', false);
+            })
+            $('#empInjure3').click(() => {
+                $('#PartTwo_EmpInjureDescription').removeClass('was-validated');
+                $('#PartTwo_EmpInjureDescription').prop('required', false);
+            })
+            $('#empInjure4').click(() => {
+                $('#PartTwo_EmpInjureDescription').removeClass('was-validated');
+                $('#PartTwo_EmpInjureDescription').prop('required', false);
+                $('#PartTwo_StopWorking').removeClass('was-validated');
+                $('#PartTwo_StopWorking').prop('required', false);
+            })
+            //
+            $('#partiesInjure1').click(() => {
+                $('#PartTwo_PartiesInjureDescription').removeClass('was-validated');
+                $('#PartTwo_PartiesInjureDescription').prop('required', false);
+                $('#PartTwo_PartiesDie').removeClass('was-validated');
+                $('#PartTwo_PartiesDie').prop('required', false);
+            })
+            $('#partiesInjure2').click(() => {
+                $('#PartTwo_PartiesDie').removeClass('was-validated');
+                $('#PartTwo_PartiesDie').prop('required', false);
+            })
+            $('#partiesInjure3').click(() => {
+                $('#PartTwo_PartiesInjureDescription').removeClass('was-validated');
+                $('#PartTwo_PartiesInjureDescription').prop('required', false);
+            })
+            //
+            $('#thirdPartyInjure1').click(() => {
+                $('#PartTwo_ThirdPartiesInjureDescription').removeClass('was-validated');
+                $('#PartTwo_ThirdPartiesInjureDescription').prop('required', false);
+                $('#PartTwo_ThirdPartiesDie').removeClass('was-validated');
+                $('#PartTwo_ThirdPartiesDie').prop('required', false);
+            })
+            $('#thirdPartyInjure2').click(() => {
+                $('#PartTwo_ThirdPartiesDie').removeClass('was-validated');
+                $('#PartTwo_ThirdPartiesDie').prop('required', false);
+            })
+            $('#thirdPartyInjure3').click(() => {
+                $('#PartTwo_ThirdPartiesInjureDescription').removeClass('was-validated');
+                $('#PartTwo_ThirdPartiesInjureDescription').prop('required', false);
+            })
+            //
+            $('#truckDamage1').click(() => {
+                $('#PartTwo_TruckDamageDescription').removeClass('was-validated');
+                $('#PartTwo_TruckDamageDescription').prop('required', false);
+            })
+            //
+            $('#partyDamage1').click(() => {
+                $('#PartTwo_PartiesDamageDescription').removeClass('was-validated');
+                $('#PartTwo_PartiesDamageDescription').prop('required', false);
+            })
+            //
+            $('#equipmentDamage1').click(() => {
+                $('#PartTwo_EquipmentDamageDescription').removeClass('was-validated');
+                $('#PartTwo_EquipmentDamageDescription').prop('required', false);
+            })
+            //
+            $('#isNormal1').click(() => {
+                $('#PartTwo_TruckInspectionDescription').removeClass('was-validated');
+                $('#PartTwo_TruckInspectionDescription').prop('required', false);
+            })
+        })();
+        //Part 3
+        function RemoveImage(input) {
+            if (input === 'output1') {
+                document.getElementById('output1').removeAttribute('src');
+                let name = document.getElementById('PartThree_ImageBeforeIncidenName');
+                name.focus();
+                name.value = "";
+                return false;
+            }
+            if (input === 'output2') {
+                document.getElementById('output2').removeAttribute('src');
+                let name = document.getElementById('PartThree_ImageIncidentName');
+                name.focus();
+                name.value = "";
+                return false;
+            }
+            if (input === 'output3') {
+                document.getElementById('output3').removeAttribute('src');
+                let name = document.getElementById('PartThree_ImageAfterIncidentName');
+                name.focus();
+                name.value = "";
+                return false;
+            }
+            if (input === 'output4') {
+                document.getElementById('output4').removeAttribute('src');
+                let name = document.getElementById('PartThree_ImageIncidentAreaName');
+                name.focus();
+                name.value = "";
+                return false;
+            }
+        }
+        //Part 4
+        $('#PartFour_IncidentDepotId').change(() => {
+            const value = $('#PartFour_IncidentDepotId').val();
+            if (value === '2') {
+                $('#PartFour_FallFromHeight').addClass('was-validated');
+                $('#PartFour_FallFromHeight').prop('required', true);
+                alertify.error('โปรดกรอกจำนวน')
+            } else {
+                $('#PartFour_FallFromHeight').removeClass('was-validated');
+                $('#PartFour_FallFromHeight').prop('required', false);
+            }
+        })
+        function fnRadioIncidentRoadClick() {
+            const elementsDepot = document.getElementsByName('radioIncidentDepot');
+            for (var i = 0; i < elementsDepot.length; i++) {
+                elementsDepot[i].checked = false;
+                elementsDepot[i].disabled = true;
+            }
+            const elementsRoad = document.getElementsByName('radioIncidentRoad');
+            for (var i = 0; i < elementsRoad.length; i++) {
+                elementsRoad[i].disabled = false;
+            }
+            elementsRoad[0].checked = true;
+        }
+        function fnRadioIncidentDepotClick() {
+            const elementsRoad = document.getElementsByName('radioIncidentRoad');
+            for (var i = 0; i < elementsRoad.length; i++) {
+                elementsRoad[i].checked = false;
+                elementsRoad[i].disabled = true;
+            }
+            const elementsDepot = document.getElementsByName('radioIncidentDepot');
+            for (var i = 0; i < elementsDepot.length; i++) {
+                elementsDepot[i].disabled = false;
+            }
+            elementsDepot[0].checked = true;
+        }
+    </script>
+}

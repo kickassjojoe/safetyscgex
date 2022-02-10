@@ -1,0 +1,13 @@
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\bin\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.exe
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\bin\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.deps.json
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\bin\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.runtimeconfig.json
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\bin\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.runtimeconfig.dev.json
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\bin\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.dll
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\bin\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.pdb
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\obj\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.AssemblyInfoInputs.cache
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\obj\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.AssemblyInfo.cs
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\obj\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.csproj.CoreCompileInputs.cache
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\obj\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.dll
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\obj\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.pdb
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\obj\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.genruntimeconfig.cache
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Console\obj\Debug\netcoreapp3.1\VK1.SCGE.Safety.Console.csprojAssemblyReference.cache

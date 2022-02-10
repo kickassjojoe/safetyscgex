@@ -1,0 +1,138 @@
+﻿@if (ViewBag.DistanceYear != null) {
+    <table class="table table-bordered table-sm">
+        <thead class="black white-text">
+            <tr>
+                <th class="text-center p-1 mb-2">
+                    <a class="btn btn-outline-danger"
+                       asp-action="ExcelDistanceYear"
+                       asp-controller="DistanceReports"
+                       asp-route-id="@ViewBag.Year"><i class="fas fa-file-excel"></i> Excel</a>
+                </th>
+                <th colspan="13" class="text-center"><h5 class="font-weight-bold">เลขระยะทางรวมปี @ViewBag.Year</h5></th>
+            </tr>
+            <tr class="text-center">
+                <th scope="col" class="font-weight-bold">ภาค</th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',1)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        ม.ค.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',2)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        ก.พ.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',3)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        มี.ค.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',4)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        เม.ย.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',5)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        พ.ค.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',6)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        มิ.ย.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',7)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        ก.ค.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',8)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        ส.ค.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',9)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        ก.ย.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',10)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        ต.ค.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',11)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        พ.ย.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">
+                    <a href="#" onclick="return fnMonthlyModal('@ViewBag.Year',12)" class="white-text" data-toggle="modal" data-target="#distanceModal">
+                        ธ.ค.
+                    </a>
+                </th>
+                <th scope="col" class="font-weight-bold">รวม</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int[] arrTotal = new int[12];
+                int totalRegion = 0;
+                int totJan = 0, totFeb = 0, totMar = 0, totApr = 0, totMay = 0, totJun = 0, totJul = 0, totAug = 0, totSep = 0, totOct = 0, totNov = 0, totDec = 0, GranTotal = 0;
+            }
+            @foreach (var item in ViewBag.DistanceYear) {
+                var jan = item.January ?? 0; totJan += jan;
+                var feb = item.February ?? 0; totFeb += feb;
+                var mar = item.March ?? 0; totMar += mar;
+                var apr = item.April ?? 0; totApr += apr;
+                var may = item.May ?? 0; totMay += may;
+                var jun = item.June ?? 0; totJun += jun;
+                var jul = item.July ?? 0; totJul += jul;
+                var aug = item.August ?? 0; totAug += aug;
+                var sep = item.September ?? 0; totSep += sep;
+                var oct = item.October ?? 0; totOct += oct;
+                var nov = item.November ?? 0; totNov += nov;
+                var dec = item.December ?? 0; totDec += dec;
+                totalRegion = jan + feb + mar + apr + may + jun + jul + aug + sep + oct + nov + dec;
+                GranTotal += totalRegion;
+                <tr class="text-center">
+                    <td scope="col">@item.RegionName</td>
+                    <td scope="col">@($"{jan:n0}")</td>
+                    <td scope="col">@($"{feb:n0}")</td>
+                    <td scope="col">@($"{mar:n0}")</td>
+                    <td scope="col">@($"{apr:n0}")</td>
+                    <td scope="col">@($"{may:n0}")</td>
+                    <td scope="col">@($"{jun:n0}")</td>
+                    <td scope="col">@($"{jul:n0}")</td>
+                    <td scope="col">@($"{aug:n0}")</td>
+                    <td scope="col">@($"{sep:n0}")</td>
+                    <td scope="col">@($"{oct:n0}")</td>
+                    <td scope="col">@($"{nov:n0}")</td>
+                    <td scope="col">@($"{dec:n0}")</td>
+                    <td scope="col" class="font-weight-bold">
+                        @($"{totalRegion:n0}")
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="text-center">
+                <td class="font-weight-bold">รวม</td>
+                <td class="font-weight-bold">@($"{totJan:n0}")</td>
+                <td class="font-weight-bold">@($"{totFeb:n0}")</td>
+                <td class="font-weight-bold">@($"{totMar:n0}")</td>
+                <td class="font-weight-bold">@($"{totApr:n0}")</td>
+                <td class="font-weight-bold">@($"{totMay:n0}")</td>
+                <td class="font-weight-bold">@($"{totJun:n0}")</td>
+                <td class="font-weight-bold">@($"{totJul:n0}")</td>
+                <td class="font-weight-bold">@($"{totAug:n0}")</td>
+                <td class="font-weight-bold">@($"{totSep:n0}")</td>
+                <td class="font-weight-bold">@($"{totOct:n0}")</td>
+                <td class="font-weight-bold">@($"{totNov:n0}")</td>
+                <td class="font-weight-bold">@($"{totDec:n0}")</td>
+                <td class="font-weight-bold">@($"{GranTotal:n0}")</td>
+            </tr>
+        </tfoot>
+    </table>
+}

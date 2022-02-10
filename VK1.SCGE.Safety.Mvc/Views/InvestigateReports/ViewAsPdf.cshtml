@@ -1,0 +1,31 @@
+﻿@model InvestigateCard
+
+@{
+    Layout = null;
+}
+<style>
+    .page-breaker {
+        display: block;
+        clear: both;
+        page-break-after: always;
+    }
+
+    .breakhere {
+        page-break-after: always;
+    }
+</style>
+
+<div>
+    <partial name="_Page1" />
+</div>
+<div class="page-breaker"></div>
+<div>
+    <partial name="_Page2" />
+</div>
+<div class="page-breaker"></div>
+<div>
+    <partial name="_Page3" />
+</div>
+
+
+

@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "font-awesome@5.14.0",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "alertifyjs@1.13.1",
+      "destination": "wwwroot/lib/alertifyjs/",
+      "files": [
+        "build/alertify.min.js",
+        "build/css/alertify.min.css",
+        "build/css/alertify.rtl.min.css",
+        "build/css/themes/bootstrap.min.css",
+        "build/css/themes/bootstrap.rtl.min.css",
+        "build/css/themes/bootstrap.rtl.css",
+        "build/css/themes/bootstrap.css",
+        "build/css/alertify.css",
+        "build/css/alertify.rtl.css",
+        "build/alertify.js"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "Select2@3.5.7",
+      "destination": "wwwroot/lib/Select2/",
+      "files": [
+        "select2-bootstrap.css",
+        "select2.css",
+        "select2-spinner.gif",
+        "select2.js",
+        "select2.min.js"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "@ttskch/select2-bootstrap4-theme@1.4.0",
+      "destination": "wwwroot/lib/ttskch/select2-bootstrap4-theme/",
+      "files": [
+        "dist/select2-bootstrap4.css",
+        "dist/select2-bootstrap4.min.css"
+      ]
+    },
+    {
+      "library": "select2@4.0.9",
+      "destination": "wwwroot/lib/select2/"
+    }
+  ]
+}

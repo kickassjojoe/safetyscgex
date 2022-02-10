@@ -1,0 +1,54 @@
+﻿@model Branch
+@{
+    Layout = null;
+}
+
+<form asp-action="Create" method="post" class="needs-validation" novalidate>
+    <input type="hidden" asp-for="BranchCode" />
+    <input type="hidden" asp-for="CreatedBy" />
+    <input type="hidden" asp-for="CreatedDate" />
+    <div class="row">
+        <div class="col-md-3 md-form">
+            <label for="BranchCode">ชื่อสาขา</label>
+            <input asp-for="Name" class="form-control" required />
+            <div class="invalid-feedback">
+                กรุณากรอกชื่อ!
+            </div>
+        </div>
+        <div class="col-md-2" style="margin-top:0px">
+            <select asp-for="RegionId"
+                    asp-items="ViewBag.Regions"
+                    class="mdb-select validate md-form" searchable="Search here..">
+                <option value="" disabled selected>--เลือกภาค--</option>
+            </select>
+            <div class="invalid-feedback" style="margin-top:-30px" id="invalidRegion">
+                กรุณาเลือกภาค !
+            </div>
+        </div>
+        <div class="col-md-3 md-form">
+            <label for="BranchManager">หัวหน้าสาขา</label>
+            <input asp-for="BranchManager" class="form-control" />
+            <div class="invalid-feedback">
+                กรุณากรอกหัวหน้าสาขา!
+            </div>
+        </div>
+        <div class="col-md-3 md-form">
+            <label for="BranchCode">Email</label>
+            <input asp-for="Email" class="form-control" />
+            <div class="invalid-feedback">
+                กรุณากรอก email!
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <button asp-action="Edit" class="btn btn-primary" id="btnAdd">
+                <i class="far fa-save"></i>
+                Save
+            </button>
+            <button asp-action="Index" class="btn btn-danger">
+                Cancel
+            </button>
+        </div>
+    </div>
+</form>

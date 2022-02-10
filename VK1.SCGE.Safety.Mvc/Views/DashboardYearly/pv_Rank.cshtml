@@ -1,0 +1,24 @@
+﻿@{
+    List<RankViewModel> models = (List<RankViewModel>)ViewBag.Ranks;
+}
+@if (models != null) {
+    <table class="table-info table-sm table-bordered text-white">
+        <thead class="mdb-color text-white">
+            <tr style="height:42px">
+                <th>ระดับความรุนแรง</th>
+                <th>SCG Ex</th>
+                <th>ผรม.</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in models) {
+                <tr class="black-text bg-white">
+                    <td>@item.Name</td>
+                    <td>@item.Scg</td>
+                    <td>@item.Carrier</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}

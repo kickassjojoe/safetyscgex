@@ -1,0 +1,145 @@
+﻿@model List<AccidentReportViewModel>
+
+@if (Model != null) {
+    <div>
+        <a asp-action="ExportToExcel"
+           asp-controller="AccidentReports"
+           asp-route-from="@ViewBag.From"
+           asp-route-to="@ViewBag.To"
+           asp-route-regionId="@ViewBag.Region"
+           asp-route-branchCode="@ViewBag.Branch"><i class="far fa-file-excel fa-2x indigo-text"></i></a>
+        <span class="text-muted text-lg-center font-weight-bold">รายงานอุบัติเหตุ</span>
+    </div>
+    <div>
+        <table id="basicTable" class="table table-striped table-bordered table-sm table-hover">
+            <thead class="mdb-color text-white">
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">วันที่เกิดเหตุ</th>
+                    <th class="text-center">หน่วยงาน</th>
+                    <th class="text-center">สาขา</th>
+                    <th class="text-center">ชื่อเคส</th>
+                    <th class="text-center">ชื่อพนักงาน</th>
+                    <th class="text-center">ตำแหน่ง</th>
+                    <th class="text-center">อายุพนักงาน</th>
+                    <th class="text-center">อายุงาน</th>
+                    <th class="text-center">สังกัดบริษัทฯ</th>
+                    <th class="text-center">กะการทำงาน</th>
+                    <th class="text-center">ประเมินความผิด</th>
+                    <th class="text-center">ประเภทของอุบัติเหตุ</th>
+                    <th class="text-center">ระดับความรุนแรง</th>
+                    <th class="text-center">ระยะเวลาตั้งแต่เกิดจนแล้วเสร็จ</th>
+                    <th class="text-center">เวลาพักผ่อน</th>
+                    <th class="text-center">เส้นทางที่วิ่ง</th>
+                    <th class="text-center">สินค้าหลังตู้รถขณะเกิดเหตุ</th>
+                    <th class="text-center">การดำเนินการ</th>
+                    <th class="text-center">การบาดเจ็บของพนักงาน</th>
+                    <th class="text-center">การบาดเจ็บของคู่กรณี</th>
+                    <th class="text-center">การบาดเจ็บของบุคคลที่ 3</th>
+                    <th class="text-center">ความเสียหายของรถ</th>
+                    <th class="text-center">ความเสียหายของรถคู่กรณี</th>
+                    <th class="text-center">ความเสียหายของอุปกรณ์</th>
+                    <th class="text-center">กล้องหน้ารถ</th>
+                    <th class="text-center">การตรวจสภาพรถ</th>
+                    <th class="text-center">GPS</th>
+                    <th class="text-center">ความเร็วขณะเกิดเหตุ</th>
+                    <th class="text-center">กล้องวงจรปิด</th>
+                    <th class="text-center">อบรมความปลอดภัย</th>
+                    <th class="text-center">อบรม SDC</th>
+                    <th class="text-center">ผลการตรวจแอลกอฮอล์</th>
+                    <th class="text-center">รายละเอียด</th>
+                    <th class="text-center">สภาพพื้นที่</th>
+                    <th class="text-center">สภาพอากาศ</th>
+                    <th class="text-center">การจราจร</th>
+                    <th class="text-center">ลักษณะบริเวณเกิดเหตุ</th>
+                    <th class="text-center">ลักษณะอุบัติเหตุ</th>
+                    <th class="text-center">สาเหตุของอุบัติเหต Unsafe Act.</th>
+                    <th class="text-center">สาเหตุของอุบัติเหตุ Unsafe Con.</th>
+                    <th class="text-center">มาตรการป้องกันที่ดำเนินการ</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{ int itemNo = 1;}
+                @foreach (var item in Model) {
+
+                    string[] _description = GlobalData.SeparateWord(item.IncidentDescription, 40);
+                    string[] _casename = GlobalData.SeparateWord(item.CaseName, 30);
+
+                    <tr class="font-smaller">
+                        <td style="font-size:12px;font-family:Arial">@(itemNo++)</td>
+                        <td style="font-size:12px;font-family:Arial">@item.CaseDate</td>
+                        <td style="font-size:12px;font-family:Arial">@item.RegionName</td>
+                        <td style="font-size:12px;font-family:Arial">@item.BranchCode</td>
+                        <td style="font-size:12px;font-family:Arial;white-space:nowrap">
+                            @if (_casename != null) {
+                                for (int i = 0; i < _casename.Length; i++) {
+                                    @_casename[i]<br />
+                                }
+                            }
+                        </td>
+                        <td style="font-size:12px;font-family:Arial">@item.EmployeeName</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Position</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Age</td>
+                        <td style="font-size:12px;font-family:Arial">@item.YearExperience</td>
+                        <td style="font-size:12px;font-family:Arial">@item.CompanyName</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Shift</td>
+                        <td style="font-size:12px;font-family:Arial">@item.CaseType</td>
+                        <td style="font-size:12px;font-family:Arial">@item.AccidentMode</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Rank</td>
+                        <td style="font-size:12px;font-family:Arial">@item.SolutionHour</td>
+                        <td style="font-size:12px;font-family:Arial">@item.LeisureHour</td>
+                        <td style="font-size:12px;font-family:Arial">@item.IncidentRoute</td>
+                        <td style="font-size:12px;font-family:Arial">@item.ProductDamage</td>
+                        <td style="font-size:12px;font-family:Arial">@item.CaseEffect</td>
+                        <td style="font-size:12px;font-family:Arial">@item.EmpInjure</td>
+                        <td style="font-size:12px;font-family:Arial">@item.PartiesInjure</td>
+                        <td style="font-size:12px;font-family:Arial">@item.ThirdPartiesInjure</td>
+                        <td style="font-size:12px;font-family:Arial">@item.TruckDamage</td>
+                        <td style="font-size:12px;font-family:Arial">@item.PartiesDamage</td>
+                        <td style="font-size:12px;font-family:Arial">@item.EquipmentDamage</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Camera</td>
+                        <td style="font-size:12px;font-family:Arial">@item.TruckInspectionNormal</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Gps</td>
+                        <td style="font-size:12px;font-family:Arial">@item.GpsSpeed</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Cctv</td>
+                        <td style="font-size:12px;font-family:Arial">@item.SafetyCourse</td>
+                        <td style="font-size:12px;font-family:Arial">@item.SdcCourse</td>
+                        <td style="font-size:12px;font-family:Arial">@item.AlcoholCheck</td>
+                        <td style="font-size:12px;font-family:Arial;white-space:nowrap">
+                            @if (_description != null) {
+                                for (int i = 0; i < _description.Length; i++) {
+                                    @_description[i] <br />
+                                }
+                            }
+                        </td>
+                        <td style="font-size:12px;font-family:Arial">@item.AreaConditon</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Weather</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Traffic</td>
+                        <td style="font-size:12px;font-family:Arial">@item.IncidentArea</td>
+                        <td style="font-size:12px;font-family:Arial">@item.Incident</td>
+                        <td style="font-size:12px;font-family:Arial;white-space:nowrap">
+                            @foreach (var unsafeact in item.UnsafeActs) {
+                                <span>- @unsafeact.Name</span><br />
+                            }
+                        </td>
+                        <td style="font-size:12px;font-family:Arial;white-space:nowrap">
+                            @foreach (var unsafecon in item.UnsafeCons) {
+                                <span>- @unsafecon.Name</span><br />
+                            }
+                        </td>
+                        <td style="font-size:12px;font-family:Arial;white-space:nowrap">
+                            @foreach (var solution in item.Solutions) {
+                                var solutionCollect = GlobalData.SeparateWord(solution, 40);
+                                <span>-</span>
+                                for (int i = 0; i < solutionCollect.Length; i++) {
+                                    <span>@solutionCollect[i]</span><br />
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

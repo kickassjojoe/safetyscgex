@@ -1,0 +1,231 @@
+﻿@model InvestigateCard
+
+@{
+    var unsafeActTranDict = ViewData["UnsafeActTranDict"] as Dictionary<string, List<string>>;
+    var unsafeActDepotDict = ViewData["UnsafeActDepotDict"] as Dictionary<string, List<string>>;
+    var unsafeConTranDict = ViewData["UnsafeConTranDict"] as Dictionary<string, List<string>>;
+    var unsafeConDepotDict = ViewData["UnsafeConDepotDict"] as Dictionary<string, List<string>>;
+
+}
+
+<div style="height:25px">
+    <div style="width:45%;text-align:left;float:left">
+        <span style="font-size:14px">รายงานการสอบสวนอุบัติเหตุ</span>
+    </div>
+    <div style="width:55%;text-align:left;float:right">
+        <span style="font-size:15px;font-family:Tahoma">Accident Report </span>
+    </div>
+</div>
+<div style="width:100%;text-align:left">
+    <span style="font-size:14px">บริษัท เอสซีจี ยามาโต๊ะ เอ็กซ์เพรส จำกัด</span>
+</div>
+<div style="height:15px;border:solid #000 1px;text-align:center">
+    <span style="font-size:14px">ส่วนที่ 4 วิเคราะห์ข้อมูลรถและลักษณะพื้นที่หลังเกิดอุบัติเหตุ</span>
+</div>
+
+<table cellpadding="0" cellspacing="0" style="
+           border-left:solid #000 1px;
+           border-right:solid #000 1px;width:100%">
+    <tr>
+        <td style="width:50%;">
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">รถยนต์ : @Model.PartFour.IncidentTruck.Name</span>
+            </div>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">อื่นๆ : @Model.PartFour.IncidentTruckDescription</span>
+            </div>
+        </td>
+        <td style="width:50%">
+            <div style="height:8px"></div>
+            <div>
+                <span style="font-size:13px;font-family:Tahoma">สภาพพื้นที่ : @Model.PartFour.AreaCondition.Name</span>
+            </div>
+            <div>
+                <span style="font-size:13px;font-family:Tahoma">อื่นๆ : @Model.PartFour.AreaConditionDescription</span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="width:50%">
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">ตำแหน่งที่รถหยุดหลังเกิดเหตุ : @Model.PartFour.IncidentTruckPositon.Name</span>
+            </div>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">อื่นๆ : @Model.PartFour.IncidentTruckPositionDescription</span>
+            </div>
+        </td>
+        <td style="width:50%">
+            <div style="height:8px"></div>
+            <div>
+                <span style="font-size:13px;font-family:Tahoma">สภาพอากาศ : @Model.PartFour.Weather.Name</span>
+            </div>
+            <div>
+                <span style="font-size:13px;font-family:Tahoma">อื่นๆ : @Model.PartFour.WeatherDescription</span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="width:50%">
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">ลักษณะบริเวณเกิดเหตุ : @Model.PartFour.IncidentArea.Name</span>
+            </div>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">อื่นๆ : @Model.PartFour.IncidentAreaDescription</span>
+            </div>
+        </td>
+        <td style="width:50%">
+            <div style="height:8px"></div>
+            <span style="font-size:13px;font-family:Tahoma">การจราจร : @Model.PartFour.Traffic.Name</span>
+        </td>
+    </tr>
+    <tr>
+        <td style="width:50%">
+            <div>
+                <div style="margin-left:2px">
+                    <span style="font-size:13px;font-family:Tahoma">ลักษณะการของอุบัติเหตุ(ทางถนน) : @Model.PartFour.IncidentRoad?.Name</span>
+                </div>
+                <div style="margin-left:2px">
+                    <span style="font-size:13px;font-family:Tahoma">อื่นๆ : @Model.PartFour.IncidentRoadDescription</span>
+                </div>
+            </div>
+        </td>
+        <td style="width:50%">
+            <div style="height:8px"></div>
+            <div>
+                <span style="font-size:13px;font-family:Tahoma">ลักษณะของอุบัติเหตุ (ในคลัง/สาขา) : @Model.PartFour.IncidentDepot?.Name</span>
+            </div>
+            <div>
+                <span style="font-size:13px;font-family:Tahoma">อื่นๆ : @Model.PartFour.IncidentDepotDescription</span>
+            </div>
+        </td>
+    </tr>
+
+</table>
+<div style="height:15px;border:solid #000 1px;text-align:center">
+    <span style="font-size:14px">ส่วนที่ 5 วิเคราะห์สาเหตุของอุบัติเหตุ (Unsafe Act.การกระทำที่ไม่ปลอดภัย)</span>
+</div>
+<table cellpadding="0" cellspacing="0" style="
+           border-left:solid #000 1px;
+           border-right:solid #000 1px;width:100%">
+    <tr>
+        <td style="width:50%;height:200px;border-right:solid #000 1px;vertical-align:top">
+            <div>
+                <div style="margin-left:2px">
+                    <span style="font-size:13px;font-family:Tahoma">Unsafe Act.(การขับรถ)</span>
+                </div>
+                @foreach (var key in unsafeActTranDict) {
+                    <div style="margin-left:5px;list-style-type:square"><span style="font-size:13px;font-family:Tahoma"> @key.Key</span> </div>
+                    @foreach (var value in key.Value) {
+                        <div style="margin-left:10px;list-style-type:circle"><span style="font-size:13px;font-family:Tahoma"> - @value</span></div>
+                    }
+                }
+            </div>
+        </td>
+        <td style="width:50%;vertical-align:top">
+            <div>
+                <div style="margin-left:2px">
+                    <span style="font-size:13px;font-family:Tahoma">Unsafe Act. (คลังสินค้า,สาขาและออฟฟิต)</span>
+                </div>
+                @foreach (var key in unsafeActDepotDict) {
+                    <div style="margin-left:5px;list-style-type:square"><span style="font-size:13px;font-family:Tahoma"> @key.Key</span> </div>
+                    @foreach (var value in key.Value) {
+                        <div style="margin-left:10px;list-style-type:circle"><span style="font-size:13px;font-family:Tahoma"> - @value</span></div>
+                    }
+                }
+            </div>
+        </td>
+    </tr>
+</table>
+<div style="height:15px;border:solid #000 1px;text-align:center">
+    <span style="font-size:14px">ส่วนที่ 5 วิเคราะห์สาเหตุของอุบัติเหตุ (Unsafe Condition.สภาพแวดล้อม เครื่องมืออุุปกรณ์ที่ไม่ปลอดภัย)</span>
+</div>
+<table cellpadding="0" cellspacing="0" style="
+           border-left:solid #000 1px;
+           border-right:solid #000 1px;width:100%">
+    <tr>
+        <td style="width:50%;height:200px;border-right:solid #000 1px;vertical-align:top">
+            <div>
+                <div style="margin-left:2px">
+                    <span style="font-size:13px;font-family:Tahoma">Unsafe Conditions (การขับรถ)</span>
+                </div>
+                @foreach (var key in unsafeConTranDict) {
+                    <div style="margin-left:5px;list-style-type:square"><span style="font-size:13px;font-family:Tahoma"> @key.Key</span> </div>
+                    @foreach (var value in key.Value) {
+                        <div style="margin-left:10px;list-style-type:circle"><span style="font-size:13px;font-family:Tahoma"> - @value</span></div>
+                    }
+                }
+            </div>
+        </td>
+        <td style="width:50%;height:200px;vertical-align:top">
+            <div>
+                <div style="margin-left:2px">
+                    <span style="font-size:13px;font-family:Tahoma">Unsafe Conditions (คลังสินค้า,สาขาและออฟฟิต)</span>
+                </div>
+                @foreach (var key in unsafeConDepotDict) {
+                    <div style="margin-left:5px;list-style-type:square"><span style="font-size:13px;font-family:Tahoma"> @key.Key</span> </div>
+                    @foreach (var value in key.Value) {
+                        <div style="margin-left:10px;list-style-type:circle"><span style="font-size:13px;font-family:Tahoma"> - @value</span></div>
+                    }
+                }
+            </div>
+        </td>
+    </tr>
+
+</table>
+
+<div style="height:15px;border:solid #000 1px;text-align:center">
+    <span style="font-size:14px">ส่วนที่ 6 สรุปสาเหตุที่พบและมาตรการป้องกัน</span>
+</div>
+<table cellpadding="0" cellspacing="0" style="
+           border-left:solid #000 1px;
+           border-right:solid #000 1px;width:100%;
+           table-layout:fixed">
+    <tr style="text-align:center">
+        <td style="width:4%;border-right:solid #000 1px;border-bottom:solid #000 1px">
+            <span style="font-size:13px;font-family:Tahoma">ข้อที่</span>
+        </td>
+        <td style="width:6%;border-right:solid #000 1px;border-bottom:solid #000 1px">
+            <span style="font-size:13px;font-family:Tahoma">ประเภท</span>
+        </td>
+        <td style="width:28%;border-right:solid #000 1px;border-bottom:solid #000 1px">
+            <span style="font-size:13px;font-family:Tahoma">รายการของสาเหตุที่พบ</span>
+        </td>
+        <td style="width:38%;border-right:solid #000 1px;border-bottom:solid #000 1px">
+            <span style="font-size:13px;font-family:Tahoma">มาตรการป้องกันที่ดำเนินการ</span>
+        </td>
+        <td style="width:10%;border-right:solid #000 1px;border-bottom:solid #000 1px">
+            <span style="font-size:13px;font-family:Tahoma">ผู้รับผิดชอบ</span>
+        </td>
+        <td style="width:10%;border-bottom:solid #000 1px">
+            <span style="font-size:13px;font-family:Tahoma">กำหนด <br/>แล้วเสร็จ</span>
+        </td>
+    </tr>
+
+    @{ int itemNo = 1;}
+    @foreach (var item in Model.PartSixes) {
+        <tr>
+            <td style="border-right:solid #000 1px;border-bottom:solid #000 1px">
+                <span style="font-size:13px;font-family:Tahoma">@(itemNo++)</span>
+            </td>
+            <td style="border-right:solid #000 1px;border-bottom:solid #000 1px">
+                @{ var unsafetype = item.UnsafeItem.UnsafeCategory.UnsafeType.ToString() == "UnsafeAction" ? "Unsafe Act." : "Unsafe Con."; }
+
+                <span style="font-size:13px;font-family:Tahoma">@unsafetype</span>
+
+            </td>
+            <td style="border-right:solid #000 1px;border-bottom:solid #000 1px">
+                <div style="word-break:break-all;white-space:pre-wrap"><span style="font-size:13px;font-family:Tahoma">@item.UnsafeItemName</span></div>
+            </td>
+            <td style="border-right:solid #000 1px;border-bottom:solid #000 1px">
+                <div style="word-break:break-all;white-space:pre-wrap"><span style="font-size:13px;font-family:Tahoma">@item.Solution</span></div>
+            </td>
+            <td style="border-right:solid #000 1px;border-bottom:solid #000 1px">
+                <span style="font-size:13px;font-family:Tahoma">@item.ResponsePerson</span>
+            </td>
+            <td style="border-bottom:solid #000 1px">
+                <span style="font-size:13px;font-family:Tahoma">@($"{item.DueDate:dd/MM/yyyy}")</span>
+            </td>
+        </tr>
+
+    }
+</table>

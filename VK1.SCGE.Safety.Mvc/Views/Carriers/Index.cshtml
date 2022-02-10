@@ -1,0 +1,87 @@
+﻿@model Carrier
+<div class="row mt-3">
+    <h5>
+        Form Master
+        <small class="text-sm-center text-secondary">page header description goes here...</small>
+    </h5>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @if (Model != null) {
+            <h5 class="card-title lead text-left text-muted">
+                <i class="fas fa-edit"></i> แก้ไข-มาสเตอร์ผู้รับเหมา
+            </h5>
+            <partial name="_EditCarrier" />
+        } else {
+            <h5 class="card-title lead text-left text-muted">
+                สร้างมาสเตอร์ผู้รับเหมา
+            </h5>
+            <partial name="_CreateCarrier" />
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        @if (ViewBag.Carriers != null) {
+            <partial name="pv_Table" />
+        }
+    </div>
+</div>
+
+@section styles{
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.min.css" rel="stylesheet" />
+    <style>
+        /*body {*/
+        /* Margin bottom by footer height */
+        /*margin-bottom: 60px;
+            font-family: Prompt, sans-serif;
+            min-height: 75rem;*/
+        /*padding-top: 4.5rem;*/
+        /*}*/
+
+        a:hover {
+            cursor: pointer
+        }
+    </style>
+}
+@section scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+
+            fnAlert('@TempData["Msg"]');
+        })
+
+
+        function deleteItem(id) {
+            alertify.confirm('Delete', 'Are you sure you want to delete this (Y/N)?',
+                function () {
+                    const url = `/Carriers/Delete/${id}`;
+                    window.location.href = url;
+                },
+                function () {
+                    alertify.error('Cancel')
+                });
+        }
+
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+    </script>
+}

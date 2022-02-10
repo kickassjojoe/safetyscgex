@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<p class="mt-2">
+    <span class="text-muted"><i class="fa fa-calendar"></i> รายการตรวจรถรายทะเบียน </span>
+    @{await Html.RenderPartialAsync("_Filter");}
+</p>
+@{await Html.RenderPartialAsync("_Messages");}
+
+
+<div id="data">
+    <partial name="_Table" />
+</div>
+
+
+@section Styles{
+   
+
+    <link href="~/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+
+    @*<link href="~/lib/bootstrap/dist/css/mdb-pro.min.css" rel="stylesheet" />*@
+ 
+}
+
+@section Scripts{
+   
+
+    <script src="~/js/jquery.datetimepicker.full.min.js"></script>
+
+    @*<script src="~/lib/bootstrap/dist/js/mdb.min.js"></script>*@
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('.mdb-select').materialSelect();
+        })
+        //1
+        $('#date').datetimepicker({
+            timepicker: false,
+            format: 'd/m/Y',
+        });
+
+        function fnGetCard() {
+            const date = $('#date').val();
+            const vehicleId = $('#vehicle').val();
+            const url = `/DailyReports/GetCard?vehicleId=${vehicleId}&strDate=${date}`;
+
+            $('#btnSearch').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Logging in...').addClass('disabled');
+
+            $.get(url).then(res => {
+                $('#btnSearch').html('Search')
+                    .removeClass('disabled')
+                    .addClass('btn btn-mdb-color ml-3');
+                $('#data').html(res);
+            });
+        }
+       
+    </script>
+}
+

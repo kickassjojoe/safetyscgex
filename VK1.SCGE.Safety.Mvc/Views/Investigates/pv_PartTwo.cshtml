@@ -1,0 +1,395 @@
+﻿@model InvestigateCard
+<h6 class="px-3 mt-2 font-weight-bold"><u>ส่วนที่2 ข้อมูลของรถ การบรรทุกสินค้า ความเสียหายและการบาดเจ็บ</u></h6>
+
+<div class="form-row">
+    <div class="col-md-3 md-form">
+        @*<div class="md-form md-outline input-with-post-icon datepicker" id="falseY">
+            <input placeholder="Select time" type="text" id="leaveBranchTime" name="leaveBranchTime" class="form-control" required>
+            <label for="leaveBranchTime">เวลาออกจากสาขาวันที่เกิดเหตุ</label>
+            <div class="invalid-feedback">
+                กรุณากรอกเวลาออกจากสาขาวันที่เกิดเหตุ
+            </div>
+        </div>*@
+        <label for="PartTwo_LeaveBranchTime">เวลาออกจากสาขาวันที่เกิดเหตุ(ชม:นาที)</label>
+        <input asp-for="PartTwo.LeaveBranchTime" class="form-control" pattern="^[0-1][0-9]:[0-5][0-9]$|^[2][0-3]:[0-5][0-9]$|^[2][3]:[0][0]$" required />
+        <div class="invalid-feedback">
+            กรุณากรอกเวลาออกจากสาขาวันที่เกิดเหตุ
+        </div>
+    </div>
+    <div class="col-md-3 md-form p-0">
+        <label for="PartTwo_LeisureHour">เวลาพักผ่อนของพนักงานก่อนเกิดเหตุ</label>
+    </div>
+    <div class="col-md-2 md-form p-0">
+        <input asp-for="PartTwo.LeisureHour" class="form-control" required />
+        <div class="invalid-feedback">
+            กรุณากรอกเวลาพักผ่อน
+        </div>
+    </div>
+    <div class="col-md-1 md-form p-0">
+        <label for="CaseName">ชั่วโมง</label>
+    </div>
+</div>
+<div class="form-row mt-2" style="height:25px">
+    <div class="col-md-5">
+        <div class="mb-4 font-weight-bold"><label>เส้นทางที่วิ่ง </label></div>
+    </div>
+</div>
+<div class="form-row mt-1" style="height:25px">
+    <div class="col-md-5">
+        <!-- Material inline 4 -->
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="routeInline1" name="radioRoute" value="วิ่งประจำ" checked>
+            <label class="form-check-label" for="routeInline1">วิ่งประจำ  </label>
+        </div>
+        <!-- Material inline 4 -->
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="routeInline2" name="radioRoute" value="เปลี่ยนเส้นทางวิ่งชั่วคราว">
+            <label class="form-check-label" for="routeInline2">เปลี่ยนเส้นทางมาวิ่งชั่วคราว  </label>
+        </div>
+    </div>
+
+</div>
+<div class="form-row mt-1" style="height:25px">
+    <div class="col-md-7">
+        <div class="mb-4 font-weight-bold"><label>สินค้าหลังตู้รถขณะเกิดเหตุ</label></div>
+    </div>
+</div>
+<div class="form-row" style="height:25px;margin-top:-30px">
+    <div class="md-form form-check form-check-inline" style="height:25px">
+        <input type="radio" class="form-check-input" id="isProductInline1" name="radioIsProduct" value="False" checked>
+        <label class="form-check-label" for="isProductInline1">ไม่มีสินค้า  </label>
+    </div>
+    <!-- Material inline 4 -->
+    <div class="md-form form-check form-check-inline" style="height:25px">
+        <input type="radio" class="form-check-input" id="isProductInline2" name="radioIsProduct" value="True" onclick="return CheckIsProduct()">
+        <label class="form-check-label" for="isProductInline2">มีสินค้า  จำนวน </label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <input asp-for="PartTwo.ProductQty" class="form-control" /> ชิ้น
+    </div>
+</div>
+<div class="form-row mt-3">
+    <div class="md-form form-check form-check-inline" style="height:20px">
+        <input type="radio" class="form-check-input" id="isDamageInline1" name="radioIsDamage" value="False" checked>
+        <label class="form-check-label" for="isDamageInline1">ไม่ได้รับความเสียหาย  </label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="height:20px">
+        <input type="radio" class="form-check-input" id="isDamageInline2" name="radioIsDamage" value="True" onclick="return CheckIsDamage()">
+        <label class="form-check-label" for="isDamageInline2">เสียหาย</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+      จำนวน  <input asp-for="PartTwo.ProductDamageQty" class="form-control" /> ชิ้น
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+      มูลค่า  <input asp-for="PartTwo.ProductDamageValue" class="form-control" /> บาท
+    </div>
+
+</div>
+<div class="form-row" style="height:25px">
+    <div class="col-md-7">
+        <div class="mb-4 font-weight-bold"><label>การดำเนินการ</label></div>
+    </div>
+</div>
+<div class="form-row" style="height:25px;margin-top:-25px">
+    <div class="md-form form-check form-check-inline" style="height:25px;margin-top:15px">
+        <input type="radio" class="form-check-input" id="effiectInline1" name="radioEffect" value="สามารถส่งต่อได้หลังเกิดเหตุ" checked>
+        <label class="form-check-label" for="effiectInline1">สามารถส่งต่อได้หลังเกิดเหตุ  </label>
+    </div>
+    <!-- Material inline 4 -->
+    <div class="md-form form-check form-check-inline" style="height:25px;margin-top:15px">
+        <input type="radio" class="form-check-input" id="effiectInline2" name="radioEffect" value="พัสดุเลื่อนส่ง" onclick="return CheckEffect()">
+        <label class="form-check-label" for="effiectInline2">พัสดุเลื่อนส่ง  จำนวน </label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <input asp-for="PartTwo.ProductPostpone" class="form-control" /> ชิ้น
+    </div>
+</div>
+<div class="form-row" style="height:55px"></div>
+<div class="form-row" style="height:25px;margin-top:-25px">
+    <div class="col-md-7">
+        <div class="mb-4 font-weight-bold"><label>การบาดเจ็บ</label></div>
+        <div class="ml-3 font-weight-bold" style="margin-top:-30px">พนักงาน</div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="empInjure1" name="radioEmpInjure" value="ไม่ได้รับบาดเจ็บ" checked>
+        <label class="form-check-label" for="empInjure1">ไม่ได้รับบาดเจ็บ</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="empInjure2" name="radioEmpInjure" value="ได้รับบาดเจ็บ" onclick="return CheckEmpInjure()">
+        <label class="form-check-label" for="empInjure2">ได้รับบาดเจ็บ ระบุ</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <textarea asp-for="PartTwo.EmpInjureDescription" class="form-control"></textarea>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="empInjure3" name="radioEmpInjure" value="หยุดงาน" onclick="return CheckEmpStopWork()">
+        <label class="form-check-label" for="empInjure3">หยุดงาน</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <input asp-for="PartTwo.StopWorking" class="form-control" style="width:150px" /> วัน
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="empInjure4" name="radioEmpInjure" value="เสียชีวิต">
+        <label class="form-check-label" for="empInjure4">เสียชีวิต</label>
+    </div>
+</div>
+<div class="form-row" style="height:25px">
+    <div class="col-md-7">
+        <div class="ml-3 font-weight-bold" style="margin-top:20px">คู่กรณี</div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="partiesInjure1" name="radioPartiesInjure" value="ไม่ได้รับบาดเจ็บ" checked>
+        <label class="form-check-label" for="partiesInjure1">ไม่ได้รับบาดเจ็บ</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="partiesInjure2" name="radioPartiesInjure" value="ได้รับบาดเจ็บ" onclick="return CheckPartiesInjure()">
+        <label class="form-check-label" for="partiesInjure2">ได้รับบาดเจ็บ ระบุ</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <textarea asp-for="PartTwo.PartiesInjureDescription" class="form-control"></textarea>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="partiesInjure3" name="radioPartiesInjure" value="เสียชีวิต" onclick="return CheckPartiesDie()">
+        <label class="form-check-label" for="partiesInjure3">เสียชีวิต</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <input asp-for="PartTwo.PartiesDie" class="form-control" style="width:150px" /> ราย
+    </div>
+</div>
+<div class="form-row" style="height:25px">
+    <div class="col-md-7">
+        <div class="ml-3 font-weight-bold" style="margin-top:20px">บุคคลที่3</div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="thirdPartyInjure1" name="radioThirdParty" value="ไม่ได้รับบาดเจ็บ" checked>
+        <label class="form-check-label" for="thirdPartyInjure1">ไม่ได้รับบาดเจ็บ</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="thirdPartyInjure2" name="radioThirdParty" value="ได้รับบาดเจ็บ" onclick="return CheckThirdPartyInjure()">
+        <label class="form-check-label" for="thirdPartyInjure2">ได้รับบาดเจ็บ ระบุ</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <textarea asp-for="PartTwo.ThirdPartiesInjureDescription" class="form-control"></textarea>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="thirdPartyInjure3" name="radioThirdParty" value="เสียชีวิต" onclick="return CheckThirdPartyDie()">
+        <label class="form-check-label" for="thirdPartyInjure3">เสียชีวิต</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <input asp-for="PartTwo.ThirdPartiesDie" class="form-control" style="width:150px" /> ราย
+    </div>
+</div>
+<div class="form-row" style="height:25px">
+    <div class="col-md-7">
+        <div class="font-weight-bold" style="margin-top:20px">ความเสียหายของรถขนส่ง</div>
+    </div>
+</div>
+<div class="form-row mt-1 mb-0">
+    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+        <input type="radio" class="form-check-input" id="truckDamage1" name="radioTruckDamage" value="ไม่ได้รับความเสียหาย" checked>
+        <label class="form-check-label" for="truckDamage1">ไม่ได้รับความเสียหาย</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:-5px">
+        <input type="radio" class="form-check-input" id="truckDamage2" name="radioTruckDamage" value="ได้รับความเสียหายกรณีเป็นฝ่ายผิดแจ้งหักเงิน" onclick="return CheckTruckDamage()">
+        <label class="form-check-label" for="truckDamage2">ได้รับความเสียหาย (กรณีเป็นฝ่ายผิดแจ้งหักเงิน) ระบุ</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <input asp-for="PartTwo.TruckDamageDescription" class="form-control" style="width:450px" />
+    </div>
+</div>
+<div class="form-row" style="height:25px;margin-top:-25px">
+    <div class="col-md-7">
+        <div class="font-weight-bold" style="margin-top:20px">ความเสียหายของรถคู่กรณี</div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="md-form form-check form-check-inline" style="margin-top:0px">
+        <input type="radio" class="form-check-input" id="partyDamage1" name="radioPartyDamage" value="ไม่ได้รับความเสียหาย" checked>
+        <label class="form-check-label" for="partyDamage1">ไม่ได้รับความเสียหาย</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:-5px">
+        <input type="radio" class="form-check-input" id="partyDamage2" name="radioPartyDamage" value="ได้รับความเสียหาย" onclick="return CheckPartyDamage()">
+        <label class="form-check-label" for="partyDamage2">ได้รับความเสียหาย ระบุ</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <input asp-for="PartTwo.PartiesDamageDescription" class="form-control" style="width:600px" />
+    </div>
+</div>
+<div class="form-row" style="height:25px;margin-top:-25px">
+    <div class="col-md-7">
+        <div class="font-weight-bold" style="margin-top:20px">ความเสียหายของอุปกรณ์หรือสถานที่</div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="md-form form-check form-check-inline" style="margin-top:0px">
+        <input type="radio" class="form-check-input" id="equipmentDamage1" name="radioEquipmentDamage" value="ไม่ได้รับความเสียหาย" checked>
+        <label class="form-check-label" for="equipmentDamage1">ไม่ได้รับความเสียหาย</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:0px">
+        <input type="radio" class="form-check-input" id="equipmentDamage2" name="radioEquipmentDamage" value="ได้รับความเสียหาย" onclick="return CheckEquipmentDamage()">
+        <label class="form-check-label" for="equipmentDamage2">ได้รับความเสียหาย ระบุ</label>
+    </div>
+    <div class="md-form form-check form-check-inline" style="margin-top:10px">
+        <input asp-for="PartTwo.EquipmentDamageDescription" class="form-control" style="width:600px" />
+    </div>
+</div>
+<div class="form-row" style="height:25px;margin-top:-25px">
+    <div class="col-md-12">
+        <div class="font-weight-bold" style="margin-top:20px">อุปกรณ์ข้อมูลประกอบ</div>
+    </div>
+    <div class="col-md-6">
+        <div class="ml-3 font-weight-bold" style="margin-top:0px;width:60%">กล้องหน้ารถ</div>
+    </div>
+    <div class="col-md-6">
+        <div class="ml-3 font-weight-bold" style="margin-top:0px">การตรวจสภาพรถ</div>
+    </div>
+</div>
+<div class="form-row mt-1">
+    <div class="col-md-6 px-0">
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="camera1" name="radioCamera" value="บันทึกปกติใช้งานได้" checked>
+            <label class="form-check-label" for="camera1">บันทึกปกติใช้งานได้</label>
+        </div>
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="camera2" name="radioCamera" value="ไม่บันทึกกล้องเสีย">
+            <label class="form-check-label" for="camera2">ไม่บันทึกกล้องเสีย</label>
+        </div>
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="camera3" name="radioCamera" value="ไม่มีกล้อง">
+            <label class="form-check-label" for="camera3">ไม่มีกล้อง</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="isNormal1" name="radioIsNormal" value="True" checked>
+            <label class="form-check-label" for="isNormal1">ปกติ</label>
+        </div>
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="isNormal2" name="radioIsNormal" value="False" onclick="return CheckIsNormal()">
+            <label class="form-check-label" for="isNormal2">ผิดปกติ ระบุ</label>
+        </div>
+        <div class="md-form form-check form-check-inline" style="margin-top:10px">
+            <textarea asp-for="PartTwo.TruckInspectionDescription" class="form-control"></textarea>
+        </div>
+    </div>
+</div>
+<div class="form-row" style="height:25px">
+    <div class="col-md-6">
+        <div class="ml-3 font-weight-bold" style="margin-top:0px">GPS</div>
+    </div>
+</div>
+<div class="form-row" style="margin-top:-45px">
+    <div class="md-form form-check form-check-inline">
+        <input type="radio" class="form-check-input" id="isGps1" name="radioIsGps" value="True" checked>
+        <label class="form-check-label" for="isGps1">มีการติดตั้ง</label>
+    </div>
+    <div class="md-form form-check form-check-inline">
+        <input type="radio" class="form-check-input" id="isGps2" name="radioIsGps" value="False">
+        <label class="form-check-label" for="isGps2">ไม่มีการติดตั้ง</label>
+    </div>
+    <div class="col-md-form form-check form-check-inline mt-4 text-muted">
+        <label class="mt-1">ความเร็วจากGPS </label>
+    </div>
+    <div class="md-form form-check form-check-inline">
+        <input asp-for="PartTwo.GpsSpeed" class="form-control" style="width:150px" />กม./ชม.
+    </div>
+    <div class="col-md-form form-check form-check-inline mt-4 text-muted">
+        <label class="mt-1">ความเร็วที่จำกัด </label>
+    </div>
+    <div class="md-form form-check form-check-inline">
+        <input asp-for="PartTwo.GpsSpeedLimit" class="form-control" style="width:150px" />กม./ชม.
+    </div>
+</div>
+<div class="form-row mt-2" style="height:25px">
+    <div class="col-md-3">
+        <div class="ml-3 font-weight-bold" style="margin-top:0px">วีดีโอกล้องวงจรปิด</div>
+    </div>
+    <div class="col-md-3">
+        <div class="ml-3 font-weight-bold" style="margin-top:0px">อบรมความปลอดภัย</div>
+    </div>
+    <div class="col-md-3">
+        <div class="ml-3 font-weight-bold" style="margin-top:0px">อบรมSDC</div>
+    </div>
+    <div class="col-md-3">
+        <div class="ml-3 font-weight-bold" style="margin-top:0px">ผลการตรวจแอลกอฮอล์</div>
+    </div>
+</div>
+<div class="form-row" style="margin-top:-30px">
+    <div class="col-md-3">
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="cctv1" name="radioIsCctv" value="True" checked>
+            <label class="form-check-label" for="cctv1">มี</label>
+        </div>
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="cctv2" name="radioIsCctv" value="False">
+            <label class="form-check-label" for="cctv2">ไม่มี</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="isPassSafety1" name="radioIsPassSafety" value="True">
+            <label class="form-check-label" for="isPassSafety1">ผ่าน</label>
+        </div>
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="isPassSafety2" name="radioIsPassSafety" value="False">
+            <label class="form-check-label" for="isPassSafety2">ไม่ผ่าน</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="isPassSDC1" name="radioIsPassSDC" value="True">
+            <label class="form-check-label" for="isPassSDC1">ผ่าน</label>
+        </div>
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="isPassSDC2" name="radioIsPassSDC" value="False">
+            <label class="form-check-label" for="isPassSDC2">ไม่ผ่าน</label>
+        </div>
+    </div>
+    @*<div class="col-md-4">
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="training1" name="radioTraining" value="ความปลอดภัยผ่าน" checked>
+            <label class="form-check-label" for="training1">ความปลอดภัยผ่าน</label>
+        </div>
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="training2" name="radioTraining" value="SDCผ่าน">
+            <label class="form-check-label" for="training2">SDCผ่าน</label>
+        </div>
+    </div>*@
+    <div class="col-md-3">
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="isAlcohol1" name="radioIsAlcohol" value="True" checked>
+            <label class="form-check-label" for="isAlcohol1">ผ่าน</label>
+        </div>
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="isAlcohol2" name="radioIsAlcohol" value="False">
+            <label class="form-check-label" for="isAlcohol2">ไม่ผ่าน</label>
+        </div>
+    </div>
+</div>
+<div class="form-row" style="height:25px">
+    <div class="col-md-6">
+        <div class="ml-3" style="margin-top:0px">การนำรถเข้าศูนย์ล่าสุด</div>
+    </div>
+</div>
+<div class="form-row" style="margin-top:-20px">
+    <div class="col-md-2 mr-3">
+        <div class="md-form md-outline input-with-post-icon datepicker p-0" id="falseY">
+            <input placeholder="Select date" type="text" id="inspectionDate" name="inspectionDate" class="form-control" required>
+            <label for="inspectionDate">วันที่นำรถเข้าศูนย์ล่าสุด</label>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="col-md-form form-check form-check-inline mt-4 text-muted">
+            <label class="mt-1">เลขไมค์ </label>
+        </div>
+        <div class="md-form form-check form-check-inline">
+            <input asp-for="PartTwo.LastMaintenanceOdometer" class="form-control" style="width:150px" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SubContact>
+@if (ViewBag.Model != null) {
+    <table id="datatable" class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>ชื่อบริษัทขนส่ง</th>
+                <th>ชื่อผู้ใช้งานระบบ</th>
+                <th>ทะเบียน</th>
+                <th>ภาค</th>
+                <th>สาขา</th>
+                <th>ยี่ห้อรถ</th>
+                <th>ประเภทรถ</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int itemNo = 1;}
+            @foreach (var item in ViewBag.Model) {
+            <tr>
+                <td>@(itemNo++)</td>
+                <td>@item.Name</td>
+                <td>@item.Username</td>
+                <td>@item.PlateNumber</td>
+                <td>@item.Region.Name</td>
+                <td>@item.Branch.Name</td>
+                <td>@item.Brand</td>
+                <td>@item.VehicleType</td>
+                <td>
+                    @if (item.IsApproved) {
+                        <p class="text-info font-weight-bold p-0">Approved</p>
+                    } else {
+                        <a onclick="return fnApprove('@item.SubContactId')"
+                           class="btn btn-mdb-color btn-sm">
+                            Approve
+                        </a>
+                    }
+                </td>
+                <td>
+                    <a onclick="return fnDelete('@item.SubContactId')"
+                       class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}

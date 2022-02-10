@@ -1,0 +1,43 @@
+﻿@model Region
+
+<h4 class="mt-3"><i class="fas fa-globe"></i> สร้างรายการภาค</h4>
+<hr />
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Branch code</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index"><i class="fas fa-chevron-left"></i> Back to List</a>
+</div>
+
+@section Styles{
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.min.css" rel="stylesheet" />
+<style>
+    body {
+        /* Margin bottom by footer height */
+        margin-bottom: 60px;
+        font-family: Prompt, sans-serif;
+        min-height: 75rem;
+        /*padding-top: 4.5rem;*/
+    }
+</style>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,84 @@
+﻿@model Dictionary<TruckInspectionCard, List<TruckInspectionCardDetail>>
+
+@{ Layout = null;}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div style="text-align:center" class="mb-2">
+        <span class="font-weight-bold">รายละเอียดการตรวจสภาพรถประจำวันที่ @($"{Model.Keys.FirstOrDefault().InspectionDate:dd/MM/yyyy}")</span>
+    </div>
+    <div style="border-bottom:1px solid"></div>
+    <div style="height:10px"></div>
+    <div class="row" style="font-size:0.85em">
+        <div style="width:33%;float:left">ชื่อผู้ตรวจ : @Model.Keys.FirstOrDefault().EmployeeName</div>
+        <div style="width:33%;float:left">ทะเบียน : @Model.Keys.FirstOrDefault().PlateNumber</div>
+        <div style="width:33%;float:left">เลขไมค์ : @Model.Keys.FirstOrDefault().StartOdometer</div>
+    </div>
+    <div style="height:25px"></div>
+    <div>
+        @foreach (var v in Model.Keys) {
+            <table>
+                <thead>
+                    <tr>
+                        <th><b>ลำดับ</b></th>
+                        <th colspan="3" style="text-align:center"><b>รายละเอียด</b></th>
+                        <th><b>หมายเหตุ</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int itemNo = 1; int no = 1;}
+                    @foreach (var item in v.TruckInspectionCardDetails.OrderBy(x => x.TruckInspectionItem.TruckInspectionCategoryId)) {
+
+                        var catId = item.TruckInspectionItem.TruckInspectionCategoryId;
+                        var count = v.TruckInspectionCardDetails.Where(x => x.TruckInspectionItem.TruckInspectionCategoryId == catId).Count();
+                        var test = count - (count - 1);
+                        <tr>
+                            <td>
+                                @if (itemNo == 1) {@no}
+                            </td>
+                            <td>
+                                @if (itemNo == 1) {
+                                    @item.TruckInspectionItem.TruckInspectionCategory.Name
+                                }
+                            </td>
+                            <td>@item.TruckInspectionItem.Name</td>
+                            <td>
+                                @if (item.IsNormal == null) {
+                                    <span>ไม่ได้ตรวจ</span>
+                                } else {
+                                    if (item.IsNormal == true) {
+                                        <span>ปกติ</span>
+                                    } else {
+                                        <span>ผิดปกติ</span>
+                                    }
+                                }
+                            </td>
+
+                            <td style="white-space:pre-wrap">@item.Remark</td>
+                        </tr>
+                        @if (itemNo == count) {
+                            itemNo = 1;
+                            no++;
+                        } else {
+                            itemNo++;
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script src="~/lib/bootstrap/dist/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="~/lib/bootstrap/dist/js/mdb.min.js"></script>
+
+</body>
+
+</html>

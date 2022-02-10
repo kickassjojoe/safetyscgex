@@ -1,0 +1,126 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card mt-3">
+    <div class="card-body py-0">
+        <div class="row pt-2">
+            <span style="font-size:14px;font-weight:bold" class="mx-3">รายการสอบสวนอุบัติเหตุ</span>
+            <span class="text-muted"><i class="fa fa-filter"></i> ค้นหาโดย </span>
+        </div>
+        <div class="form-row pb-0">
+            <div class="col-md-2 mt-4">
+                <label>ค้นหาโดยตัวย่อสาขา</label>
+            </div>
+            <div class="col-md-3 md-form p-0 mx-3" style="margin-top:0px">
+                <select class="mdb-select md-form p-0" name="branchCode" id="branchCode"
+                        asp-items="@ViewBag.Branches"
+                        searchable="Search here..">
+                    <option value="" selected>ทั้งหมด</option>
+                </select>
+                <label class="mdb-main-label">สาขา</label>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-outline-cyan" id="btnSearch">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-1" id="card">
+    <div class="card-body">
+        <div id="data">
+            <partial name="pv_Table" />
+        </div>
+    </div>
+</div>
+
+
+@section Styles{
+
+    <link href="~/css/jquery.periodpicker.min.css" rel="stylesheet" />
+
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.min.css" rel="stylesheet" />
+    <style>
+        /*body {*/
+        /* Margin bottom by footer height */
+        /*margin-bottom: 60px;
+            font-family: Prompt, sans-serif;
+            min-height: 75rem;*/
+        /*padding-top: 4.5rem;*/
+        /*}*/
+    </style>
+}
+
+@section Scripts{
+    <script src="~/js/jquery.periodpicker.full.min.js"></script>
+
+    <!-- MDB core JavaScript -->
+    <script src="~/lib/bootstrap/dist/js/mdb.min.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        $(document).ready(function () {
+            $('.mdb-select').materialSelect({
+
+            });
+            $('#basicTable').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+
+        //
+
+        //2
+        $('#btnSearch').click(() => {
+
+            $('#btnSearch').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...').addClass('disabled');
+
+            const branch = $('#branchCode').val();
+            const url = `/InvestigateReports/GetInvestigates?branchCode=${branch}`;
+
+            $.get(url).then(res => {
+                $('#data').html(res);
+                $('#btnSearch').html('Search')
+                    .removeClass('disabled')
+                    .addClass('btn btn-outline-cyan');
+
+                $('#basicTable').DataTable();
+                $('.dataTables_length').addClass('bs-select');
+
+            });
+        })
+
+        //3
+        function fnApprove(id, branchcode) {
+            debugger;
+            alertify.confirm('Approve', 'Are you sure you want to approve this (Y/N)?',
+                function () {
+                    const url = `/InvestigateReports/Approve/${id}`;
+                    $.post(url).then(res => {
+                        debugger;
+                        if (res.message === 'Successfully') {
+                            const getUrl = `/InvestigateReports/GetInvestigates?branchCode=${branchcode}`;
+                            $.get(getUrl).then(res => {
+                                $('#data').html(res);
+                                $('#basicTable').DataTable();
+                                $('.dataTables_length').addClass('bs-select');
+
+                                alertify.success('บันทึกผ่าน');
+                            });
+
+                        } else if (res.message === 'ItemNotFound') {
+                            alertify.error('ไม่พบข้อมูล');
+                        } else if (res.message === 'Errors') {
+                            alert.message(res.error, 0);
+                        }
+
+                    })
+                }, function () {
+                    alertify.error('Cancel');
+                }
+            );
+
+        }
+    </script>
+}

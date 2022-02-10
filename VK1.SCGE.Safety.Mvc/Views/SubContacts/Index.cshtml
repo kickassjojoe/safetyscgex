@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p class="mt-2">
+    <span class="text-muted"><i class="fa fa-user"></i> รายชื่อ Sub contact </span>
+    @{await Html.RenderPartialAsync("_Messages");}
+    <div id="approveData">
+        @{ await Html.RenderPartialAsync("_Table");}
+    </div>
+</p>
+
+
+@section Styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" />
+
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.css" rel="stylesheet" />
+    <style>
+        /*body {*/
+            /* Margin bottom by footer height */
+            /*margin-bottom: 60px;
+            font-family: Prompt, sans-serif;
+            min-height: 75rem;*/
+            /*padding-top: 4.5rem;*/
+        /*}*/
+
+        a:hover {
+            cursor: pointer
+        }
+    </style>
+}
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+
+    <script src="~/lib/bootstrap/dist/js/mdb.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            fnAlert('@TempData["Msg"]');
+        })
+
+        $('#datatable').DataTable();
+
+        $('#btnApprove').click(() => {
+
+        })
+
+        function fnApprove(id) {
+            alertify.confirm('Confirm Approve', 'Are you sure you want to approve?',
+                function () {  //OK
+                    fnConfirmApprove(id);
+                },
+                function () {  //Cancel
+                    alertify.error('Cancel')
+                });
+        }
+
+        function fnConfirmApprove(id) {
+            const url = `/SubContacts/Approve/${id}`;
+            $.post(url).then(res => {
+                if (!res.error) {
+                    const getUrl = '/SubContacts/GetAll';
+                    $.get(getUrl).then((res) => {
+                        $('#approveData').html(res);
+                        $('#datatable').DataTable();
+                        alertify.success('บันทึกผ่าน');
+                    })
+                } else {
+                    alert = res.error.toString();
+                    alertify.error(alert);
+                }
+            })
+        }
+
+        function fnDelete(id) {
+            alertify.confirm('Confirm Delete', 'Are you sure you want to delete?',
+                function () {  //OK
+                    const url = `/SubContacts/Delete/${id}`;
+                    $.post(url).then(res => {
+                        if (!res.error) {
+                            const getUrl = '/SubContacts/GetAll';
+                            $.get(getUrl).then((res) => {
+                                $('#approveData').html(res);
+                                $('#datatable').DataTable();
+                            })
+                        } else {
+                            alert = res.error.toString();
+                            alertify.error(alert);
+                        }
+                    }).done(() => {
+                        alertify.success('ลบข้อมูลสำเร็จ');
+                    }).fail(err => {
+                        alertify.error(err);
+                    })
+                },
+                function () {  //Cancel
+                    alertify.error('Cancel')
+                });
+        }
+
+    </script>
+
+}
+

@@ -1,0 +1,124 @@
+﻿@model InvestigateCard
+
+<h6 class="px-3 mt-2 font-weight-bold"><u>ส่วนที่3 ข้อมูลการเกิดอุบัติเหตุ</u></h6>
+<div class="form-row mt-2" style="height:25px">
+    <div class="col-md-6">
+        <div class="mb-4 font-weight-bold"><label>รายละเอียดก่อนเกิดเหตุ </label></div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-4 "><label>ภาพประกอบ (image/*)</label></div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-5">
+        <div class="form-group">
+            <textarea asp-for="PartThree.BeforeIncidentDescription" class="form-control" rows="4"></textarea>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="md-form file-field">
+            <div class="btn btn-mdb-color btn-sm float-left">
+                <span>Choose file</span>
+                <input type="file" asp-for="PartThree.ImageBeforeIncidenFile" accept="image/*" onchange="document.getElementById('output1').src = window.URL.createObjectURL(this.files[0])" />
+            </div>
+            <div class="file-path-wrapper text-sm-center">
+                <input asp-for="PartThree.ImageBeforeIncidenName" class="file-path validate" type="text" placeholder="Upload your file" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <img id="output1" src="" width="150" height="120"> <a href="#" style="color:red" onclick="return RemoveImage('output1')"> <i class="fas fa-trash"></i></a>
+    </div>
+</div>
+<div class="form-row"></div>
+<div class="form-row mt-2" style="height:25px">
+    <div class="col-md-6">
+        <div class="mb-4 font-weight-bold"><label>รายละเอียดขณะเกิดเหตุ </label></div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-4"><label>ภาพประกอบ (image/*)</label></div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-5">
+        <div class="form-group">
+            <textarea asp-for="PartThree.IncidentDescription" class="form-control" rows="4"></textarea>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="md-form file-field">
+            <div class="btn btn-mdb-color btn-sm float-left">
+                <span>Choose file</span>
+                <input type="file" asp-for="PartThree.ImageIncidenFile" accept="image/*" onchange="document.getElementById('output2').src = window.URL.createObjectURL(this.files[0])" />
+            </div>
+            <div class="file-path-wrapper text-sm-center">
+                <input asp-for="PartThree.ImageIncidentName" class="file-path validate" type="text" placeholder="Upload your file" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <img id="output2" src="" width="150" height="120"> <a href="#" style="color:red" onclick="return RemoveImage('output2')"> <i class="fas fa-trash"></i></a>
+    </div>
+</div>
+<div class="form-row"></div>
+<div class="form-row mt-2" style="height:25px">
+    <div class="col-md-6">
+        <div class="mb-4 font-weight-bold"><label>รายละเอียดหลังเกิดเหตุ </label></div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-4"><label>ภาพประกอบ (image/*)</label></div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-5">
+        <div class="form-group">
+            <textarea asp-for="PartThree.AfterIncidentDescription" class="form-control" rows="4"></textarea>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="md-form file-field">
+            <div class="btn btn-mdb-color btn-sm float-left">
+                <span>Choose file</span>
+                <input type="file" asp-for="PartThree.ImageAfterIncidenFile" accept="image/*" onchange="document.getElementById('output3').src = window.URL.createObjectURL(this.files[0])" />
+            </div>
+            <div class="file-path-wrapper text-sm-center">
+                <input asp-for="PartThree.ImageAfterIncidentName" class="file-path validate" type="text" placeholder="Upload your file" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <img id="output3" src="" width="150" height="120"> <a href="#" style="color:red" onclick="return RemoveImage('output3')"> <i class="fas fa-trash"></i></a>
+    </div>
+</div>
+<div class="form-row"></div>
+<div class="form-row mb-0" style="height:25px">
+    <div class="col-md-12 text-lg-center p-0 mb-0" style="height:25px">
+        <div class="mb-4 p-0 mb-0 m-0" style="height:20px"><label>ภาพพื้นที่เกิดเหตุ </label></div>
+    </div>
+</div>
+<div class="form-row" style="margin-top:-20px">
+    <div class="col-md-4">
+        <div class="md-form file-field">
+            <div class="btn btn-mdb-color btn-sm float-left">
+                <span>Choose file</span>
+                <input type="file" asp-for="PartThree.ImageIncidentAreaFile" accept="image/*" onchange="document.getElementById('output4').src = window.URL.createObjectURL(this.files[0])" />
+            </div>
+            <div class="file-path-wrapper text-sm-center">
+                <input asp-for="PartThree.ImageIncidentAreaName" class="file-path validate" type="text" placeholder="Upload your file" readonly>
+            </div>
+            <div class="md-form mb-0 mt-2 text-center">พิกัด GPS</div>
+            <div class="md-form" style="margin-top:-10px">
+                <label asp-for="PartThree.Latitude">ละติจูด</label>
+                <input asp-for="PartThree.Latitude" class="form-control" />
+            </div>
+            <div class="md-form" style="margin-top:-10px">
+                <label asp-for="PartThree.Longitude">ลองติจูด</label>
+                <input asp-for="PartThree.Longitude" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7 offset-1 mt-4">
+        <img id="output4" src="" width="450" height="250"> <a href="#" style="color:red" onclick="return RemoveImage('output4')"> <i class="fas fa-trash"></i></a>
+    </div>
+</div>
+<div class="form-row" style="height:220px"></div>

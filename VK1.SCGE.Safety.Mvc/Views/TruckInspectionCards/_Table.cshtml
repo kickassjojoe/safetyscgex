@@ -1,0 +1,40 @@
+﻿@model int
+@{
+    Layout = null;
+}
+<input type="hidden" value="@ViewBag.Count" />
+@if (ViewBag.Cards != null) {
+    <table id="datatable" class="display compact" style="width:100%">
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>Card id</th>
+                <th>วันที่ตรวจ</th>
+                <th>ชื่อผู้ตรวจ</th>
+                <th>ทะเบียน</th>
+                <th>เลขไมค์ขาไป</th>
+                <th>เลขไมค์ขากลับ</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int itemNo = 1;}
+            @foreach (var item in ViewBag.Cards) {
+                <tr>
+                    <td>@(itemNo++)</td>
+                    <td>@item.TruckInspectionCardId</td>
+                    <td>@($"{item.CreatedDate: dd/MM/yyyy}")</td>
+                    <td>@item.EmployeeName</td>
+                    <td>@item.PlateNumber</td>
+                    <td>@item.StartOdometer</td>
+                    <td>@item.FinishedOdometer</td>
+                    <td>
+                        <a href="" data-toggle="modal" onclick="return updateItem('@item.TruckInspectionCardId')" >
+                            บันทึกเลขไมค์ขากลับ <i class="far fa-edit ml-1"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

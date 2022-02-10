@@ -1,0 +1,42 @@
+﻿@if (ViewBag.Count > 0) {
+    <div class="d-flex justify-content-between">
+        <div class="d-flex flex-row"><h5 class="mt-3">รายงานเลขระยะทางรวม ปี @ViewBag.Year - เดือน @ViewBag.Month</h5></div>
+        <div class="d-flex flex-row">
+            <a asp-action="ExcecGetDistanceByBranchMonth"
+               asp-controller="DistanceReports"
+               asp-route-year="@ViewBag.Year"
+               asp-route-month="@ViewBag.M"
+               asp-route-branch="@ViewBag.Branch"
+               class="btn btn-outline-danger"><i class="fas fa-file-excel"></i> Excel</a>
+        </div>
+    </div>
+    <input type="hidden" value="@ViewBag.C" id="C"/>
+    <table class="table table-sm">
+        <thead class="default-color white-text">
+            <tr class="text-center">
+                <th class="font-weight-bold">ภาค</th>
+                <th class="font-weight-bold">สาขา</th>
+                <th class="font-weight-bold">ทะเบียน</th>
+                <th class="font-weight-bold">ประเภทรถ</th>
+                <th class="font-weight-bold">รวมระยะทางที่รถวิ่ง</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.MonthlyBranch) {
+                <tr class="text-center">
+                    <td>@item.RegionName</td>
+                    <td>@item.BranchCode</td>
+                    <td>@item.PlateNumber</td>
+                    <td>@item.VehicleType</td>
+                    <td>@item.TotalOdometer</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="text-center">
+                <td colspan="4">รวม</td>
+                <td>@ViewBag.GrandTotal</td>
+            </tr>
+        </tfoot>
+    </table>
+}

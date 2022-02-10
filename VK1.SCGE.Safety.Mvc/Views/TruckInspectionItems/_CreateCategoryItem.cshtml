@@ -1,0 +1,42 @@
+﻿@model TruckInspectionItem
+
+<form asp-action="Create" method="post" class="needs-validation" novalidate>
+    <div class="row">
+        <div class="col-md-3 md-form mt-0" >
+            <label class="mdb-main-label">รายการตรวจหลัก</label>
+            <select asp-for="TruckInspectionCategoryId"
+                    asp-items="ViewBag.Category"
+                    class="mdb-select validate md-form">
+                <option value="" disabled selected>--เลือกรายการตรวจหลัก--</option>
+            </select>
+            <div class="invalid-feedback" style="margin-top:-30px" id="invalidCategory">
+                กรุณาเลือกรายการตรวจหลัก !
+            </div>
+        </div>
+        <div class="col-md-4 md-form">
+            <label for="Name">ชื่อรายการตรวจย่อย</label>
+            <input asp-for="Name" class="form-control" required />
+            <div class="invalid-feedback">
+                กรุณากรอกชื่อรายการตรวจย่อย!
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button asp-action="Create" class="btn btn-primary" id="btnAdd">
+                <i class="far fa-save"></i>
+                Add
+            </button>
+        </div>
+    </div>
+    <div class="row" style="margin-top:-25px">
+        <div class="col-md-4">
+            <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" asp-for="IsMust" id="materialInline1">
+                <label class="form-check-label" for="materialInline1">ต้องตรวจ</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" asp-for="IsFirstAndFifteenth" id="materialInline2">
+                <label class="form-check-label" for="materialInline2">ตรวจทุกวันที่1และ15</label>
+            </div>
+        </div>
+    </div>
+</form>

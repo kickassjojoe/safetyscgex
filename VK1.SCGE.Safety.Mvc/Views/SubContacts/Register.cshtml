@@ -1,0 +1,158 @@
+﻿@model SubContact
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="modal-header text-center">
+    <h4 class="modal-title w-100 font-weight-bold">ฟอร์มลงทะเบียน</h4>
+</div>
+
+<section class="section-preview">
+    <form method="post" class="needs-validation" novalidate>
+        <div class="form-row">
+            <div class="col-md-4 md-form mb-0 px-3">
+                <label for="Name" class="font-weight-bold ml-2">ชื่อบริษัทขนส่ง</label>
+                <input asp-for="Name" class="form-control" required>
+                <div class="invalid-feedback text-center">
+                    กรุณากรอก ชื่อบริษัทขนส่ง !
+                </div>
+            </div>
+            <div class="col-md-4 md-form mb-0 px-3">
+                <label for="_username" class="font-weight-bold ml-2">Username(ภาษาอังกฤษ)</label>
+                <input asp-for="Username" class="form-control" id="_username" required>
+                <div class="invalid-feedback text-center">
+                    กรุณากรอก ชื่อผู้ใช้(สำหรับล็อคอิน)/user name !
+                </div>
+            </div>
+            <div class="col-md-4 md-form mb-0 px-3">
+                <label for="PlateNumber" class="font-weight-bold ml-2">ทะเบียน</label>
+                <input asp-for="PlateNumber" class="form-control px-3" required>
+                <div class="invalid-feedback text-center">
+                    กรุณากรอก ทะเบียนรถ !
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 md-form">
+                <label class="font-weight-bold ml-2">สาขา</label>
+            </div>
+            <div class="col-md-4 md-form">
+                <label class="font-weight-bold ml-2">ภาค</label>
+            </div>
+            <div class="col-md-4 md-form">
+                <label class="font-weight-bold ml-2">ประเภทรถ</label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 md-form">
+                <select asp-for="BranchCode" asp-items="@ViewBag.Branches"
+                        class="mdb-select px-3" searchable="Search here.." required>
+                    <option value="" disabled selected>กรุณาเลือกสาขา</option>
+                </select>
+            </div>
+            <div class="col-md-4 md-form">
+                <select asp-for="RegionId" asp-items="@ViewBag.Regions"
+                        class="mdb-select px-3" searchable="Search here.." required>
+                    <option value="" disabled selected>กรุณาเลือกภาค</option>
+                </select>
+            </div>
+            <div class="col-md-4 md-form mb-0">
+                <select asp-for="VehicleType" asp-items="Html.GetEnumSelectList<VehicleType>()"
+                        class="mdb-select px-3" searchable="Search here.." required>
+                    <option value="" disabled selected>กรุณาเลือกประเภทรถ</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 md-form mb-0">
+                <label for="Brand" class="font-weight-bold ml-2">ยี่ห้อรถ</label>
+                <input asp-for="Brand" class="form-control px-3" required>
+                <div class="invalid-feedback text-center">
+                    กรุณากรอก ยี่ห้อรถ !
+                </div>
+            </div>
+            <div class="col-md-4 md-form mb-0">
+                <label for="GpsProvider" class="font-weight-bold ml-2">จีพีเอส</label>
+                <input asp-for="GpsProvider" class="form-control px-3" required>
+                <div class="invalid-feedback text-center">
+                    กรุณากรอก จีพีเอส !
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 offset-4 text-center">
+                <button class="btn btn-primary" type="submit"
+                        asp-action="Register"
+                        asp-controller="SubContacts">
+                    ลงทะเบียน
+                </button>
+                <a class="btn btn-danger"
+                        asp-action="Index"
+                        asp-controller="Home">
+                    ยกเลิก
+                </a>
+            </div>
+        </div>
+    </form>
+</section>
+
+
+@section Styles{
+    <!-- Material Design Bootstrap -->
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.min.css" rel="stylesheet" />
+    <style>
+        /*body {*/
+            /* Margin bottom by footer height */
+            /*margin-bottom: 60px;
+            font-family: Prompt, sans-serif;
+            min-height: 75rem;*/
+            /*padding-top: 4.5rem;*/
+        /*}*/
+
+        a:hover {
+            cursor: pointer
+        }
+
+        .section-preview {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+        }
+    </style>
+
+}
+
+@section Scripts{
+    <!-- MDB core JavaScript -->
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/lib/bootstrap/dist/js/mdb.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('.mdb-select').materialSelect();
+            $('.mdb-select.select-wrapper .select-dropdown').val("").removeAttr('readonly').attr("placeholder",
+                "โปรดเลือก").prop('required', true).addClass('form-control').css('background-color', '#fff');
+
+            fnAlert('@TempData["Msg"]');
+
+        });
+
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+}

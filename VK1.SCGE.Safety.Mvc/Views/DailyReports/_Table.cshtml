@@ -1,0 +1,104 @@
+﻿@model Dictionary<TruckInspectionCard, List<TruckInspectionCardDetail>>
+
+@if (Model != null) {
+    @*<input type="hidden" id="_vid" value="@Model.Keys.FirstOrDefault().VehicleId" />
+        <input type="hidden" id="_date" value="@Model.Keys.FirstOrDefault().InspectionDate" />*@
+    <div class="d-flex justify-content-center">
+        <div class="d-flex flex-row">
+            <div class="p-2"><h4><span class="font-weight-bold">รายละเอียดการตรวจสภาพรถประจำวันที่ @ViewBag.Date </span></h4></div>
+        </div>
+    </div>
+    <div>
+        <form method="post">
+            <button class="btn btn-outline-primary waves-effect"
+                    asp-action="ExportPdf"
+                    asp-controller="DailyReports"
+                    asp-route-vehicleId="@Model.Keys.FirstOrDefault().VehicleId"
+                    asp-route-inspectionDate="@Model.Keys.FirstOrDefault().InspectionDate">
+                <i class="fas fa-file-pdf pr-2"></i>
+                Pdf
+            </button>
+        </form>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div class="p-2"> <h4>ชื่อผู้ตรวจ : @Model.Keys.FirstOrDefault().EmployeeName</h4></div>
+        <div class="p-2"> <h4>ทะเบียน : @Model.Keys.FirstOrDefault().PlateNumber</h4></div>
+        <div class="p-2"><h4> เลขไมค์ : @Model.Keys.FirstOrDefault().StartOdometer</h4></div>
+    </div>
+    <div style="border-bottom:1px solid"></div>
+
+    <div>
+        @foreach (var v in Model.Keys) {
+            <table class="table table-sm display compact">
+                <thead>
+                    <tr>
+                        <th><b>ลำดับ</b></th>
+                        <th colspan="4" style="text-align:center"><b>รายละเอียด</b></th>
+                        <th><b>หมายเหตุ</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int itemNo = 1; int no = 1;}
+                    @foreach (var item in v.TruckInspectionCardDetails.OrderBy(x => x.TruckInspectionItem.TruckInspectionCategoryId)) {
+
+                        var catId = item.TruckInspectionItem.TruckInspectionCategoryId;
+                        var count = v.TruckInspectionCardDetails.Where(x => x.TruckInspectionItem.TruckInspectionCategoryId == catId).Count();
+                        var test = count - (count - 1);
+
+                        <tr>
+                            <td>
+                                @if (itemNo == 1) {@no}
+                            </td>
+                            <td>
+                                @if (itemNo == 1) {
+                                    @item.TruckInspectionItem.TruckInspectionCategory.Name
+                                }
+                            </td>
+                            <td>@item.TruckInspectionItem.Name</td>
+                            <td>
+                                @if (item.IsNormal != null) {
+                                    @if (item.IsNormal.Value == true) {
+                                        <!-- Default checked disabled -->
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" checked disabled>
+                                            <label class="custom-control-label">ปกติ</label>
+                                        </div>
+                                    }
+                                } else {
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="defaultUncheckedDisabled2" name="disabledGroupExample" disabled>
+                                        <label class="custom-control-label" for="defaultUncheckedDisabled2">ปกติ</label>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                @if (item.IsNormal != null) {
+                                    @if (item.IsNormal.Value == false) {
+                                        <!-- Default checked disabled -->
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" checked disabled>
+                                            <label class="custom-control-label">ผิดปกติ</label>
+                                        </div>
+                                    }
+                                } else {
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" disabled>
+                                        <label class="custom-control-label">ผิดปกติ</label>
+                                    </div>
+                                }
+                            </td>
+                            <td>@item.Remark</td>
+                        </tr>
+                        @if (itemNo == count) {
+                            itemNo = 1;
+                            no++;
+                        } else {
+                            itemNo++;
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div style="border-bottom:1px solid"></div>
+}

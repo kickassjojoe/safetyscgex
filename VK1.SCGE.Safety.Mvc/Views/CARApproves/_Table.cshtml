@@ -1,0 +1,70 @@
+﻿@model IEnumerable<CorrectiveActionRequestItem>
+@{
+    Layout = null;
+}
+@if (Model != null) {
+    <input type="hidden" value="@ViewBag.Count" id="count" />
+    @if (Model.Count() > 0) {
+        <form method="post">
+            <input type="hidden" value="@ViewBag.CARCode" name="carcode" />
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th>สาขา</th>
+                        <th>ประเภทรถ</th>
+                        <th>ทะเบียน</th>
+                        <th>ความผิดปกติ</th>
+                        <th>หัวข้อหลัก</th>
+                        <th>วันที่ตรวจพบ</th>
+                        <th>แก้ไข</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int itemNo = 1;}
+                    @foreach (var item in Model) {
+                        var isDisable = item.IsFixed ? "disabled" : "";
+                        <tr>
+                            <td>@(itemNo++)</td>
+                            <td>@item.CorrectiveActionRequest.BranchName</td>
+                            <td>@item.CorrectiveActionRequest.VehicleType</td>
+                            <td>@item.CorrectiveActionRequest.PlateNumber</td>
+                            <td>@item.TruckInspectionItemName</td>
+                            <td>@item.TruckInspectionCategory.Name</td>
+                            <td>@($"{item.IssuedDate:dd/MM/yyyy}")</td>
+                            <td scope="row" class="p-1">
+                                <!-- Material unchecked -->
+                                <div class="form-check p-0">
+                                    <input type="checkbox" class="form-check-input p-0" id="@item.CARItemId" value="@item.CARItemId" name="chk" @isDisable>
+                                    <label class="form-check-label" for="@item.CARItemId"></label>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right">
+                            <button type="submit"
+                                    asp-action="ApproveCAR"
+                                    asp-controller="CARApproves"
+                                    class="btn btn-primary">
+                                Approve
+                            </button>
+                        </td>
+                        <td class="text-left">
+                            <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">Close</button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+
+            </table>
+        </form>
+    }
+}

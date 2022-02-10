@@ -1,0 +1,32 @@
+﻿@model VK1.SCGE.Safety.Mvc.Dtos.OdometerDto
+
+<form method="post" class="needs-validation" novalidate>
+    <input type="hidden" asp-for="TruckInspectionCardId" />
+    <!--Header-->
+    <div class="modal-header">
+        <p class="heading lead">บันทึกเลขไมค์ขากลับ - Card id @ViewBag.CardId</p>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+    </div>
+
+    <!--Body-->
+    <div class="modal-body">
+        <div class="md-form">
+            <input type="number" asp-for="Odometer" class="form-control" placeholder="Odometer" required>
+            <label data-error="wrong" data-success="right" for="Odometer">ระบุเลขไมล์ขากลับ</label>
+            <div class="invalid-feedback text-center">
+                กรุณากรอกเลขไมค์ขากลับ !
+            </div>
+        </div>
+    </div>
+
+    <!--Footer-->
+    <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary" id="btnSave"
+                >
+            Save <i class="far fa-save ml-1 white-text"></i>
+        </button>
+        <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal" href="#">Cancel</a>
+    </div>
+</form>

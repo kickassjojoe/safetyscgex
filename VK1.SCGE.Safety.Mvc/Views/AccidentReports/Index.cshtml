@@ -1,0 +1,149 @@
+﻿<div class="row pt-2">
+    <span style="font-size:14px;font-weight:bold" class="mx-3">สรุปรายงานอุบัติเหตุุ</span>
+    <span class="text-muted"><i class="fa fa-filter"></i> ค้นหาโดย </span>
+</div>
+
+<div class="form-row pb-0 mb-1">
+    <div class="col-md-3 mb-2 pt-3">
+        <label>ช่วงวันที่เกิดเหตุ</label><br />
+        <input id="datefrom" type="text" name="datefrom" />
+        <input id="dateto" type="text" name="dateto" />
+    </div>
+    <div class="col-md-2 p-0 mt-4 mr-2">
+        <label for="ddlRegion">
+            โปรดเลือกภาค
+            <select class="js-example-basic-single js-states form-control"
+                    id="ddlRegion"
+                    asp-items="@ViewBag.Regions"
+                    style="width:100%">
+                    @*onchange="return getBranch(this)">*@
+                <option value="">ทั้งหมด</option>
+            </select>
+        </label>
+    </div>
+    <div class="col-md-2 p-0 mt-4 ml-2">
+        <label for="ddlBranch">
+            โปรดเลือกสาขา
+            <select class="js-example-basic-single js-states form-control"
+                    id="ddlBranch"
+                    asp-items="@ViewBag.Branches"
+                    style="width:100%">
+                <option value="">ทั้งหมด</option>
+            </select>
+        </label>
+    </div>
+    <div class="col-md-3 pt-3 ml-4 mt-2">
+        <button class="btn btn-outline-cyan" id="btnSearch">Search</button>
+    </div>
+</div>
+<div class="row text-muted mb-4" style="border:solid 0.5px;"></div>
+
+<div id="data">
+    <partial name="pv_Table" />
+</div>
+
+
+
+@section Styles{
+    <link href="~/css/jquery.periodpicker.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .hideColumn{
+            display:none
+        }
+    </style>
+}
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/js/jquery.periodpicker.full.min.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            // $('.mdb-select').materialSelect();
+            $('.js-example-basic-single').select2({});
+
+            //
+            $('#basicTable').DataTable();
+        })
+        //1
+        $('#datefrom').periodpicker({
+            end: '#dateto',
+            lang: 'th'
+        });
+
+        //3
+        $('#btnSearch').click(() => {
+            const from = $('#datefrom').val();
+            const to = $('#dateto').val();
+            const diff = date_diff_indays(from, to);
+            if (from === "" || to === "") {
+                alertify.error('กรุณาเลือกวันที่เกิดเหตุ');
+                return false;
+            }
+            if (diff > 31) {
+                alertify.error('เลือกช่วงวันได้ไม่เกิน 31 วัน');
+                return false;
+            }
+
+            const region = $('#ddlRegion').val();
+            const branch = $('#ddlBranch').val();
+
+            $('#btnSearch').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...').addClass('disabled');
+
+            const url = `/AccidentReports/GetAll?from=${from}&&to=${to}&regionId=${region}&branchCode=${branch}`;
+
+            $.get(url).then(res => {
+                $('#btnSearch').html('Search')
+                    .removeClass('disabled')
+                    .addClass('btn btn-outline-cyan');
+                $('#data').html(res);
+            });
+        })
+
+        //5
+        //check date diff
+        var date_diff_indays = function (date1, date2) {
+            dt1 = new Date(date1);
+            dt2 = new Date(date2);
+            return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+        }
+
+        //
+        $('#ddlRegion').on('change', () => {
+            const region = $('#ddlRegion').val();
+            const url = `/AccidentReports/GetBranch/${region}`;
+            $.get(url).then(res => {
+                $('#ddlBranch').empty();
+                $('#ddlBranch').append('<option value="" selected>ทั้งหมด</option>')
+                //for (var i = 0; i < res.length; i++) {
+                //   // branch.append(`<option value="${res[i]['id']}">${res[i]['name']}</option>}`);
+                //    console.log(res[i]['id'] + "" + res[i]['name']);
+                //}
+                console.log(res.length);
+                res.forEach((x) => {
+                    $('#ddlBranch').append('<option value="' + x.id + '">' + x.name + '</option>')
+                    // console.log(x);
+                });
+
+            })
+        });
+
+        //function getBranch(selectObject) {
+        //    const id = selectObject.value;
+        //    const url = `/AccidentReports/GetBranch/${id}`;
+        //    $.get(url).then(res => {
+        //        selectObject.empty();
+        //        selectObject.append('<option value="" selected></option>')
+        //        res.forEach((x) => {
+        //            $('#ddlBranch').append('<option value="' + x.id + '">' + x.name + '</option>')
+        //        });
+
+        //    })
+        //}
+
+
+    </script>
+}

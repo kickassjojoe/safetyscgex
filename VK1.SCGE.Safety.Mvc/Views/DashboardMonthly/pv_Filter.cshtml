@@ -1,0 +1,26 @@
+﻿<div class="col-md-2 p-0 mt-4 mr-3 ml-3">
+    <label for="ddlMonth">
+        โปรดเลือกเดือน
+        <select class="js-example-basic-single js-states form-control"
+                id="ddlMonth"
+                asp-items="@ViewBag.ThaiMonths"
+                style="width:100%">
+        </select>
+    </label>
+</div>
+
+<div class="col-md-2 p-0 mt-4 ml-2">
+    <label for="ddlRegion">
+        โปรดเลือกภาค
+        <select class="js-example-basic-single js-states form-control"
+                id="ddlRegion"
+                asp-items="@ViewBag.Regions"
+                style="width:100%">
+            <option value="">ทั้งหมด</option>
+        </select>
+    </label>
+</div>
+
+<div class="col-md-3 pt-3 ml-4 mt-2">
+    <button class="btn btn-outline-cyan" id="btnSearch">Search</button>
+</div>

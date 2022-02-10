@@ -1,0 +1,34 @@
+﻿@if (ViewBag.Model != null) {
+    <table id="datatable" class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>วันที่สร้างเอกสาร</th>
+                <th>เลขที่ใบCAR</th>
+                <th>สาขา</th>
+                <th>ทะเบียนรถ</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int itemNo = 1;}
+            @foreach (var item in ViewBag.Model) {
+                <tr>
+                    <td>@(itemNo++)</td>
+                    <td>@($"{item.Created:dd/MM/yyyy}")</td>
+                    <td>@item.CARCode</td>
+                    <td>@item.BranchName</td>
+                    <td>@item.PlateNumber</td>
+                    <td>@item.CARStatusName</td>
+                    <td>
+                        <a onclick="return fnApprove('@item.CARCode')"
+                           class="btn btn-mdb-color btn-sm">
+                            Approve
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

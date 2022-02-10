@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="scgexpresssafety" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\PROJECT\\EXPRESS\\MvcAngular\\VK1\.SCGE\.Safety\\VK1\.SCGE\.Safety\.Mvc\\obj\\Release\\netcoreapp3\.1\\PubTmp\\Out\\$" />
+  </parameter>
+</parameters>

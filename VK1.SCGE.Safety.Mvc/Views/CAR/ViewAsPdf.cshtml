@@ -1,0 +1,191 @@
+﻿@model Dictionary<CorrectiveActionRequest, List<CorrectiveActionRequestItem>>
+@{ Layout = null;}
+<html>
+<head>
+    <!-- Bootstrap core CSS -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+    <style>
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            /* width: 100%;*/
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+        /*  .td-w100{
+            width:100px !important;
+        }*/
+        /*body {*/
+        /* A5 dimensions
+            height: 215mm;
+            width: 140mm;
+            margin: 0;*/
+        /*font-size: 14px;
+        }*/
+
+        .page-breaker {
+            display: block;
+            clear: both;
+            page-break-after: always;
+        }
+
+        .breakhere {
+            page-break-after: always;
+        }
+    </style>
+</head>
+<body>
+    @{
+        var itemPerPage = 10;
+        var dict = Model.Values.Sum(x => x.Count);
+        var totalPage = Convert.ToInt32(Math.Ceiling(dict / Convert.ToDouble(itemPerPage)));
+        ViewBag.TotalPage = totalPage;
+        var CARCode = Model.FirstOrDefault().Key.CARCode;
+        var created = $"{Model.FirstOrDefault().Key.Created: dd/MM/yyyy}";
+        var branchName = Model.FirstOrDefault().Key.BranchName;
+        var vehicleType = Model.FirstOrDefault().Key.VehicleType;
+        var plateNumber = Model.FirstOrDefault().Key.PlateNumber;
+        var branchManager = Model.FirstOrDefault().Key.Branch.BranchManager;
+        var email = Model.FirstOrDefault().Key.Branch.Email;
+
+        //
+    }
+    @{int itemNo = 1;}
+    @for (int i = 0; i < totalPage; i++) {
+        var page = i + 1;
+        <div style="height:600px;flex-flow:wrap">
+            <div>
+                <div>
+                    <h5 style="text-align:center;font-weight:400"><u>แบบฟอร์มรายงานให้แก้ไขความผิดปกติของรถ</u></h5>
+                </div>
+            </div>
+            <div>
+                <div style="text-align:right;height:25px;"><span>เลขที่เอกสาร :@CARCode </span></div>
+                <div style="text-align:right;height:25px"><span>วันที่สร้างเอกสาร : @created</span></div>
+            </div>
+            <div>
+                <div><span style="font-size:14px">ผู้ออกเอกสาร : @branchManager</span></div>
+                <div><span style="font-size:14px">Email : @email</span></div>
+                <div><span style="font-size:14px">ฝ่าย :</span></div>
+                <div><span style="font-size:14px">แผนก :</span></div>
+                <div><span style="font-size:14px">สาขา : @branchName</span></div>
+                <div><span style="font-size:14px">ประเภทรถ : @vehicleType</span></div>
+                <div><span style="font-size:14px">ทะเบียนรถ : @plateNumber</span></div>
+            </div>
+            <div style="height:15px"></div>
+            <div><b><u>รายการผิดปกติของรถที่ต้องแก้ไข</u></b></div>
+            <table>
+                <thead>
+                    <tr style="font-size:12px;text-align:center">
+                        <td>ลำดับ </td>
+                        <td>ความผิดปกติ</td>
+                        <td>สาเหตุ</td>
+                        <td>วันที่ตรวจพบ</td>
+                        <td>แก้ไขแล้ว</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var key in Model) {
+                        @foreach (var value in key.Value.Skip((i + 1 - 1) * itemPerPage).Take(itemPerPage)) {
+                            <tr>
+                                <td>
+                                    <div>
+                                        <span style="font-size:12px">@itemNo</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="width:230px" class="text-wrap">
+                                        <span style="font-size:12px">
+                                            @value.TruckInspectionItemName
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="width:250px" class="text-wrap">
+                                        <span style="font-size:12px">
+                                            @value.TruckInspectionCardDetail.Remark
+                                        </span>
+                                    </div>
+                                </td>
+                                <td><span style="font-size:12px">@($"{value.IssuedDate: dd/MM/yyyy}")</span></td>
+                                <td style="text-align:center">
+                                    @if (value.IsFixed) {
+                                        <span style="font-size:12px">
+                                            &#10003;
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                            itemNo++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div style="height:15px"></div>
+            <div><b><u>ดำเนินการ</u></b></div>
+            <div>
+                <div style="width:50%;height:20px;font-size:14px;
+                        border-top:solid 1px;
+                        border-left:solid 1px;
+                        float:left"
+                     class="text-wrap">นำรถเข้าแก้ไข ที่ศูนย์บริการชื่อ </div>
+                <div style="width:49%;height:20px;
+                        border-top:solid 1px;
+                        border-left:solid 1px;
+                        border-right:solid 1px; float:left"></div>
+            </div>
+            <div>
+                <div style="width:50%;height:20px;font-size:14px;
+                        border-top:solid 1px;
+                        border-left:solid 1px;
+                        float:left">วันที่นัดเข้าแก้ไข </div>
+                <div style="width:49%;height:20px;
+                        border-top:solid 1px;
+                        border-left:solid 1px;
+                        border-right:solid 1px; float:left"></div>
+            </div>
+            <div>
+                <div style="width:50%;height:20px;font-size:14px;
+                        border-top:solid 1px;
+                        border-left:solid 1px;border-bottom:solid 1px;
+                        float:left">ผู้รับเรื่อง/เบอร์ติดต่อ </div>
+                <div style="width:49%;height:20px;
+                        border-top:solid 1px;
+                        border-left:solid 1px;border-bottom:solid 1px;
+                        border-right:solid 1px; float:left"></div>
+            </div>
+        </div>
+
+        <div>
+            <div style="float:left;width:100%;height:20px;"></div>
+        </div>
+        <div><b><u>หมายเหตุ</u></b></div>
+        <div>
+            <div style="width:100%;height:30px; border-bottom:dotted 1px"></div>
+            <div style="width:100%;height:30px; border-bottom:dotted 1px"></div>
+        </div>
+        <div style="height:50px"></div>
+        <div class="float-left w-50">
+            <div><span style="font-size:14px">ผู้รับผิดชอบแก้ไข : @branchName</span></div>
+            <div><span style="font-size:14px">กำหนดการแล้วเสร็จ :</span></div>
+            <div><span style="font-size:14px">ผู้อนุมัติ : Safety</span></div>
+        </div>
+        <div class="float-right w-50">
+            <div style="float:right"><span style="font-size:14px">ตรวจสอบแล้วโดย (เจ้าหน้าที่ศูนย์บริการ)</span></div>
+        </div>
+
+        @if (totalPage != page) {
+            <div class="page-breaker"></div>
+        }
+    }
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿@model List<InvestigateCard>
+
+@if (Model != null) {
+    <table id="basicTable" class="display compact table-hover table-striped w-100">
+        <thead class="mdb-color text-white">
+            <tr style="height:42px">
+                <th>#</th>
+                <th>สาขา</th>
+                <th>ชื่อเคส</th>
+                <th>วันที่สอบสวน</th>
+                <th></th>
+                <th>แก้ไข</th>
+                <th>ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int itemNo = 1;}
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@(itemNo++)</td>
+                    <td>@item.PartOne.BranchCode</td>
+                    <td>@item.PartOne.CaseName</td>
+                    <td>@($"{item.CreatedDate:dd/MM/yyyy}")</td>
+                    <td>
+                        <a asp-action="OpenPartSix"
+                           asp-controller="PartSixes"
+                           asp-route-id="@item.InvestigateCardId"
+                           asp-route-branchCode="@ViewBag.BranchCode">
+                            <span class="text-primary">
+                                บันทึกส่วนที่6สรุปสาเหตุที่พบและมาตรการป้องกัน
+                            </span>
+                        </a>
+                    </td>
+                    <td>
+                        <form method="get">
+                            <button type="submit"
+                                    asp-action="Edit"
+                                    asp-controller="Investigates"
+                                    asp-route-id="@item.InvestigateCardId"
+                                    class="btn btn-outline-success px-2 py-1" title="แก้ไขข้อมูลส่วนที่1-5">
+                                <i class="far fa-edit" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-outline-danger px-2 py-1"
+                                title="ลบข้อมูล"
+                                onclick="return deleteItem('@item.InvestigateCardId')">
+                            <i class="far fa-trash-alt" aria-hidden="true" ></i>
+                        </button>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

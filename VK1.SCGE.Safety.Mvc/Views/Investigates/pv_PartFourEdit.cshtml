@@ -1,0 +1,161 @@
+﻿@model InvestigateCard
+@{
+    var checkRoad = Model.PartFour.IncidentRoadId?.ToString("checked");
+    var checkDepot = Model.PartFour.IncidentDepotId?.ToString("checked");
+}
+
+<input type="hidden" asp-for="PartFour.CreatedBy" />
+<input type="hidden" asp-for="PartFour.CreatedDate" />
+
+<h6 class="px-3 mt-2 font-weight-bold"><u>ส่วนที่4 วิเคราะห์ข้อมูลรถและถนนลักษณะพื้นที่หลังเกิดอุบัติเหตุ</u></h6>
+<div class="form-row mt-2 mb-0" style="height:25px">
+    <div class="col-md-6">
+        <div class="mb-4 font-weight-bold"><label>สภาพของรถหลังเกิดเหตุ </label></div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-4 font-weight-bold"><label>สภาพพื้นที่ </label></div>
+    </div>
+</div>
+<div class="form-row" style="margin-top:-15px">
+    <div class="col-md-3 md-form" style="margin-top:0px">
+        <select class="mdb-select md-form p-0"
+                asp-items="@ViewBag.IncidentTrucks"
+                asp-for="PartFour.IncidentTruckId"
+                searchable="Search here..">
+        </select>
+    </div>
+    <div class="col-md-3 md-form">
+        อื่นๆ ระบุ  <textarea asp-for="PartFour.IncidentTruckDescription" class="form-control"></textarea>
+    </div>
+    <div class="col-md-3 md-form" style="margin-top:0px">
+        <select class="mdb-select md-form p-2"
+                asp-items="@ViewBag.AreaConditions"
+                asp-for="PartFour.AreaConditionId"
+                searchable="Search here..">
+        </select>
+    </div>
+    <div class="col-md-3 md-form">
+        อื่นๆ ระบุ  <textarea asp-for="PartFour.AreaConditionDescription" class="form-control"></textarea>
+    </div>
+</div>
+<div class="form-row mt-5 mb-0" style="height:25px">
+    <div class="col-md-6">
+        <div class="mb-4 font-weight-bold"><label>ตำแหน่งที่รถหยุดหลังเกิดเหตุ </label></div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-4 font-weight-bold"><label>สภาพอากาศ</label></div>
+    </div>
+</div>
+<div class="form-row" style="margin-top:-15px">
+    <div class="col-md-3 md-form" style="margin-top:0px">
+        <select class="mdb-select md-form p-0"
+                asp-items="@ViewBag.IncidentTruckPositons"
+                asp-for="PartFour.IncidentTruckPositonId"
+                searchable="Search here..">
+        </select>
+    </div>
+    <div class="col-md-3 md-form">
+        อื่นๆ ระบุ  <textarea asp-for="PartFour.IncidentTruckPositionDescription" class="form-control"></textarea>
+    </div>
+    <div class="col-md-3 md-form" style="margin-top:0px">
+        <select class="mdb-select md-form p-2"
+                asp-items="@ViewBag.Weathers"
+                asp-for="PartFour.WeatherId"
+                searchable="Search here..">
+        </select>
+    </div>
+    <div class="col-md-3 md-form">
+        อื่นๆ ระบุ  <textarea asp-for="PartFour.WeatherDescription" class="form-control"></textarea>
+    </div>
+</div>
+<div class="form-row mt-5" style="height:25px">
+    <div class="col-md-3">
+        <div class="mb-4 font-weight-bold"><label>การจราจร </label></div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-4 font-weight-bold"><label>ลักษณะบริเวณเกิดเหตุ </label></div>
+    </div>
+</div>
+<div class="form-row" style="margin-top:-15px">
+    <div class="col-md-3 md-form" style="margin-top:0px">
+        <select class="mdb-select md-form p-0"
+                asp-items="@ViewBag.Traffics"
+                asp-for="PartFour.TrafficId"
+                searchable="Search here..">
+        </select>
+    </div>
+    <div class="col-md-3 md-form" style="margin-top:0px">
+        <select class="mdb-select md-form p-0"
+                asp-items="@ViewBag.IncidentAreas"
+                asp-for="PartFour.IncidentAreaId"
+                searchable="Search here..">
+        </select>
+    </div>
+    <div class="col-md-3 md-form">
+        อื่นๆ ระบุ  <textarea asp-for="PartFour.IncidentAreaDescription" class="form-control"></textarea>
+    </div>
+</div>
+<div class="form-row mt-4">
+    <div class="col-md-6">
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="incident1" name="radioIncident" value="road" onclick="return fnRadioIncidentRoadClick()" @checkRoad>
+            <label class="form-check-label font-weight-bold text-dark" for="incident1">ลักษณะของอุบัติเหตุ(ทางถนน)</label>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="md-form form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="incident2" name="radioIncident" value="depot" onclick="return fnRadioIncidentDepotClick()" @checkDepot>
+            <label class="form-check-label font-weight-bold text-dark" for="incident2">ลักษณะของอุบัติเหตุ(ในคลัง/สาขา)</label>
+        </div>
+
+    </div>
+</div>
+<div class="form-row" style="height:420px;margin-top:30px">
+    <input type="hidden" id="_radioIncidentRoad" value="@Model.PartFour.IncidentRoadId" />
+    <div class="col-md-6" style="margin-top:-40px">
+        @{ int rindex = 1;}
+        @foreach (var road in ViewBag.IncidentRoads) {
+            var id = $"radioIncidentRoad{rindex}";
+            var value = road.IncidentRoadId;
+            var name = road.Name;
+            <div class="form-check ml-5">
+                <input type="radio" class="form-check-input" id="@id" value="@value" name="radioIncidentRoad">
+                <label class="form-check-label" for="@id">@name</label>
+            </div>
+            rindex++;
+        }
+        <div class="ml-5">
+            อื่นๆ ระบุ  <textarea asp-for="PartFour.IncidentRoadDescription" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="col-md-6" style="margin-top:-40px">
+        @{ int dindex = 1;}
+        @foreach (var road in ViewBag.IncidentDepots) {
+            var id = $"radioIncidentDepot{dindex}";
+            var value = road.IncidentDepotId;
+            var name = road.Name;
+            <div class="form-check ml-5">
+                <input type="radio" class="form-check-input" id="@id" value="@value" name="radioIncidentDepot">
+                <label class="form-check-label" for="@id">@name</label>
+            </div>
+            dindex++;
+        }
+        <div class="ml-5">
+            อื่นๆ ระบุ  <textarea asp-for="PartFour.IncidentDepotDescription" class="form-control"></textarea>
+        </div>
+    </div>
+</div>
+<div class="row"></div>
+
+<div class="form-row mt-2">
+    <div class="col-md-3 md-form ml-5">
+        <span class="font-weight-bold">กรณีตกจากที่สูง(เมตร)</span>
+        <input asp-for="PartFour.FallFromHeight" class="form-control" />
+    </div>
+
+</div>
+
+<div class="form-row"></div>
+
+<script src="~/js/partFourEditScript.js" asp-append-version="true"></script>

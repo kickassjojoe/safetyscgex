@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TruckInspectionReportModel>
+@{
+    Layout = null;
+}
+<input type="hidden" value="@ViewBag.Count" id="count" />
+@if (Model != null) {
+    @if (Model.Count() > 0) {
+        <button class="btn btn-outline-success btn-sm mb-2"
+                onclick="return fnExportExcel('@ViewBag.DateFrom',
+                                              '@ViewBag.DateTo',
+                                              '@ViewBag.RegionId',
+                                              '@ViewBag.BranchCode')">
+            <i class="fas fa-file-excel"></i> Excel
+        </button>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>ภาค</th>
+                    <th>สาขา</th>
+                    <th>ทะเบียนรถ</th>
+                    <th colspan="2">รายการผิดปรกติ</th>
+                    <th>วันที่ตรวจพบ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var region in Model) {
+                    int idx_branch = 0;
+                    @foreach (var branch in region.Branches) {
+                        int idx_vehicle = 0;
+                        foreach (var vehicle in branch.Vehicles) {
+                            int idx_item = 0;
+                            foreach (var item in vehicle.Items) {
+                                var showVehicle = idx_item == 0 ? "visible" : "hidden";
+                                var showBranch = idx_vehicle == 0 && idx_item == 0 ? "visible" : "hidden";
+                                var showRegion = idx_branch == 0 && idx_vehicle == 0 && idx_item == 0 ? "visible" : "hidden";
+                                <tr>
+                                    <td style="visibility:@showRegion">@region.RegionName</td>
+                                    <td style="visibility:@showBranch">@branch.BranchName</td>
+                                    <td style="visibility:@showVehicle">@vehicle.PlateNumber</td>
+                                    <td>@item.Category</td>
+                                    <td>@item.Name</td>
+                                    <td>@($"{item.CreatedDate:dd/MM/yyyy}")</td>
+                                </tr>
+                                idx_item++;
+                            }
+                            idx_vehicle++;
+                        }
+                        idx_branch++;
+                    }
+                    <tr>
+                        <td colspan="6" style="border-bottom:1px solid  black"></td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+}

@@ -1,0 +1,286 @@
+﻿@model InvestigateCard
+<div style="height:25px">
+    <div style="width:45%;text-align:left;float:left">
+        <span style="font-size:14px">รายงานการสอบสวนอุบัติเหตุ</span>
+    </div>
+    <div style="width:55%;text-align:left;float:right">
+        <span style="font-size:15px;font-family:Tahoma">Accident Report </span>
+    </div>
+</div>
+<div style="width:100%;text-align:left">
+    <span style="font-size:14px">บริษัท เอสซีจี ยามาโต๊ะ เอ็กซ์เพรส จำกัด</span>
+</div>
+<div style="height:15px;border:solid #000 1px;text-align:center">
+    <span style="font-size:14px">ส่วนที่ 1 ข้อมูลทั่วไป</span>
+</div>
+<table cellpadding="0" cellspacing="0" style="
+           border-bottom:solid #000 1px;
+           border-left:solid #000 1px;
+           border-right:solid #000 1px;width:100%">
+    <tr>
+        <td style="width:50%">
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">ชื่อเคส : @Model.PartOne.CaseName</span>
+            </div>
+        </td>
+        <td style="width:50%">
+            <div>
+                <span style="font-size:13px;font-family:Tahoma">สาขา : @Model.PartOne.BranchName</span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="height:5px"></div>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">สังกัดภาค  : @Model.PartOne.RegionName</span>
+            </div>
+        </td>
+        <td>
+            <div style="height:5px"></div>
+            <span style="font-size:13px;font-family:Tahoma">วันที่เกิดเหตุ : @($"{Model.PartOne.CaseDate:dd/MM/yyy}")</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="height:5px"></div>
+            <div style="margin-left:2px"> 
+            <span style="font-size:13px;font-family:Tahoma">เวลา  : @Model.PartOne.CaseTime</span></div>
+        </td>
+        <td>
+            <div style="height:5px"></div>
+            <span style="font-size:13px;font-family:Tahoma">สถานที่ : @Model.PartOne.CaseLocation</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="height:5px"></div>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">ชื่อพนักงาน  : @Model.PartOne.EmployeeName</span>
+            </div>
+        </td>
+        <td>
+            <div style="height:5px"></div>
+            <span style="font-size:13px;font-family:Tahoma">ตำแหน่ง : @Model.PartOne.Position.Name</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="height:5px"></div>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">อายุตัว  : @Model.PartOne.Age</span>
+            </div>
+        </td>
+        <td>
+            <div style="height:5px"></div>
+            <span style="font-size:13px;font-family:Tahoma">อายุงาน  : @Model.PartOne.YearExperience ปี</span>
+            <span style="font-size:13px;font-family:Tahoma">ประสบการณ์ขับรถ  : @Model.PartOne.DriverExperience ปี</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="height:5px"></div>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">เบอร์พนักงาน  : @Model.PartOne.Telephone</span>
+            </div>
+        </td>
+        <td>
+            <div style="height:5px"></div>
+            <span style="font-size:13px;font-family:Tahoma">พนักงานสังกัดบริษัท  : @Model.PartOne.CompanyName ปี</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="height:5px"></div>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">กะการทำงาน  : @Model.PartOne.Shift</span>
+            </div>
+        </td>
+        <td>
+            <div style="height:5px"></div>
+            <span style="font-size:13px;font-family:Tahoma">กรณี  : @Model.PartOne.CaseType </span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="height:5px"></div>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">ประเภทของอุบัติเหตุ  : @Model.PartOne.AccidentMode </span>
+                <span style="font-size:13px;font-family:Tahoma"> - @Model.PartOne.TransportBy </span>
+            </div>
+        </td>
+        <td>
+            @{
+                var l = Model.PartOne.Rank.ToString().Length;
+                var r = "";
+                if (Model.PartOne.Rank.ToString().Substring(0, 2) == "L0") {
+                    r = Model.PartOne.Rank.ToString().Substring(2, l - 2);
+                } else {
+                    r = Model.PartOne.Rank.ToString();
+                }
+            }
+            <div style="height:5px"></div>
+            <span style="font-size:13px;font-family:Tahoma">ระดับความรุนแรง  : @r </span>
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" height="40"></td>
+    </tr>
+</table>
+
+<div style="height:15px;text-align:center;
+            border-left:solid #000 1px;
+            border-right:solid #000 1px;
+            border-bottom:solid #000 1px;">
+    <span style="font-size:14px">ส่วนที่ 2 ข้อมูลของรถ การบรรทุกสินค้า ความเสียหายและการบาดเจ็บ</span>
+</div>
+<table cellpadding="0" cellspacing="0" style="
+           border-bottom:solid #000 1px;
+           border-left:solid #000 1px;
+           border-right:solid #000 1px;width:100%">
+    <tr>
+        <td style="width:50%">
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">เวลาออกจากสาขาวันที่เกิดเหตุ : @Model.PartTwo.LeaveBranchTime น.</span>
+            </div>
+        </td>
+        <td style="width:50%">
+            <span style="font-size:13px;font-family:Tahoma">เวลาพักผ่อนของพนักงานก่อนเกิดเหตุ : @Model.PartTwo.LeisureHour ชั่วโมง</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">เส้นทางวิ่ง  : @Model.PartTwo.IncidentRoute</span>
+            </div>
+        </td>
+        <td>
+            <div style="height:8px"></div>
+            <span style="font-size:13px;font-family:Tahoma">ความเสียหายของรถขนส่ง  : <br />@Model.PartTwo.TruckDamage</span> <br />
+            <span style="font-size:13px;font-family:Tahoma">ระบุ  : @Model.PartTwo.TruckDamageDescription</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">สินค้าหลังตู้รถขณะเกิดเหตุ : </span>
+                @if (Model.PartTwo.IsProduct) {
+                    <span style="font-size:13px;font-family:Tahoma">มีสินค้า</span> <br />
+                    @if (Model.PartTwo.IsProductDamage) {
+                        <span style="font-size:13px;font-family:Tahoma">เสียหาย จำนวน @Model.PartTwo.ProductQty</span> <br />
+                    } else {
+                        <span style="font-size:13px;font-family:Tahoma">ไม่ได้รับความเสียหาย</span> <br />
+                    }
+
+                } else {
+                    <span style="font-size:13px;font-family:Tahoma">ไม่มีสินค้า</span>
+                }
+            </div>
+        </td>
+        <td>
+            <div style="height:8px"></div>
+            <span style="font-size:13px;font-family:Tahoma">ความเสียหายของรถคู่กรณี  : <br />@Model.PartTwo.PartiesDamage</span> <br />
+            <span style="font-size:13px;font-family:Tahoma">ระบุ  : @Model.PartTwo.PartiesDamageDescription</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">การดำเนินการ : @Model.PartTwo.CaseEffect </span>
+                @if (Model.PartTwo.ProductPostpone > 0) {
+                    <span style="font-size:13px;font-family:Tahoma">จำนวน @Model.PartTwo.ProductPostpone ชิ้น</span>
+                }
+            </div>
+
+        </td>
+        <td>
+            <div style="height:8px"></div>
+            <span style="font-size:13px;font-family:Tahoma">ความเสียหายของอุปกรณ์หรือสถานที่  : <br />@Model.PartTwo.EquipmentDamage</span> <br />
+            <span style="font-size:13px;font-family:Tahoma">ระบุ  : @Model.PartTwo.EquipmentDamageDescription</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">การบาดเจ็บ</span>
+                <div style="margin-left:20px">
+                    <span style="font-size:13px;font-family:Tahoma">พนักงาน : @Model.PartTwo.EmpInjure</span>
+                </div>
+                <div style="margin-left:20px">
+                    <span style="font-size:13px;font-family:Tahoma">ระบุ : @Model.PartTwo.EmpInjureDescription</span>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div style="height:8px"></div>
+            <span style="font-size:13px;font-family:Tahoma">อุปกรณ์/ข้อมูลประกอบ</span>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">กล้องหน้ารถ : @Model.PartTwo.Camera</span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">คู่กรณี : @Model.PartTwo.PartiesInjure</span>
+            </div>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">ระบุ : @Model.PartTwo.PartiesInjureDescription</span>
+            </div>
+        </td>
+        <td>
+            <div style="margin-left:20px">
+                @{ var gps = Model.PartTwo.IsGps ? "มีการติดตั้ง" : "ไม่มีการติดตั้ง";}
+                <span style="font-size:13px;font-family:Tahoma">GPS : @gps </span>
+            </div>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">ความเร็วจาก GPS : @Model.PartTwo.GpsSpeed กม./ชม.</span>
+            </div>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">ความเร็วที่จำกัด : @Model.PartTwo.GpsSpeedLimit กม./ชม.</span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">บุคคลที่ 3 : @Model.PartTwo.ThirdPartiesInjure</span>
+            </div>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">ระบุ : @Model.PartTwo.ThirdPartiesInjureDescription</span>
+            </div>
+        </td>
+        <td>
+            @{ var cctv = Model.PartTwo.IsCctv ? "มี" : "ไม่มี";
+                var alcohol = Model.PartTwo.IsPassAlcohol ? "ผ่าน" : "ไมผ่าน";
+                var trucknormal = Model.PartTwo.IsTruckInspectionNormal ? "ปกติ" : "ผิดปกติ"; }
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">วีดีโอจากกล้องวงจรปิด : @cctv</span>
+            </div>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">ผลการตรวจแอลกอฮอล์ : @alcohol</span>
+            </div>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">การตรวจสภาพรถ : @trucknormal</span>
+            </div>
+            <div style="margin-left:20px">
+                <span style="font-size:13px;font-family:Tahoma">การอบรม : @Model.PartTwo.Training</span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="margin-left:2px">
+                <span style="font-size:13px;font-family:Tahoma">การนำรถเข้าศูนย์ล่าสุด</span>
+                <div style="margin-left:20px">
+                    <span style="font-size:13px;font-family:Tahoma">วันที่ : @Model.PartTwo.LastMaintenanceDate</span>
+                </div>
+                <div style="margin-left:20px">
+                    <span style="font-size:13px;font-family:Tahoma">เลขไมค์ : @Model.PartTwo.LastMaintenanceOdometer</span>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

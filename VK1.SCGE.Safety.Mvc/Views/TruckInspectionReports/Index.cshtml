@@ -1,0 +1,85 @@
+﻿@{
+    Layout = "_Layout";
+}
+<p class="mt-2">
+    <span class="text-muted"><i class="fa fa-list"></i> รายงานการตรวจสภาพรถ </span>
+    @{await Html.RenderPartialAsync("_Filter");}
+</p>
+@{await Html.RenderPartialAsync("_Messages");}
+
+<div id="data">
+    @{await Html.RenderPartialAsync("_Table"); }
+</div>
+
+
+
+@section Styles{
+    <link href="~/css/jquery.periodpicker.min.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/js/jquery.periodpicker.full.min.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('.mdb-select').materialSelect();
+
+        })
+        //1
+        $('#datefrom').periodpicker({
+            end: '#dateto',
+            lang: 'th'
+        });
+
+        //3
+        function fnTruckInspectionReport() {
+            const from = $('#datefrom').val();
+            const to = $('#dateto').val();
+            const diff = date_diff_indays(from, to);
+            if (from === "" || to === "") {
+                alertify.error('กรุณาเลือกวันที่ตรวจ');
+                return false;
+            }
+            if (diff > 31) {
+                alertify.error('เลือกช่วงวันได้ไม่เกิน 31 วัน');
+                return false;
+            }
+
+            const regionId = $('#regions').val();
+            const branchCode = $('#branches').val();
+            const url = `/TruckInspectionReports/GetAll?dateFrom=${from}&&dateTo=${to}&&regionId=${regionId}&&branchCode=${branchCode}`;
+
+            $('#btnSearch').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Logging in...').addClass('disabled');
+            $.get(url, res => {
+                $('#btnSearch').html('Search')
+                    .removeClass('disabled')
+                    .addClass('btn btn-mdb-color');
+                $('#data').html(res);
+            }).done(() => {
+                const count = $('#count').val();
+                if (count > 0) {
+                    alertify.success('Done');
+                } else {
+                    alertify.error('Data not found');
+                }
+            });
+        }
+
+        //5
+        //check date diff
+        var date_diff_indays = function (date1, date2) {
+            dt1 = new Date(date1);
+            dt2 = new Date(date2);
+            return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+        }
+
+        //6
+        function fnExportExcel(dateFrom, dateTo, regionId, branchCode) {
+            const url = `/TruckInspectionReports/ExportExcel?dateFrom=${dateFrom}&&dateTo=${dateTo}&&regionId=${regionId}&&branchCode=${branchCode}`;
+
+            window.location.href = url;
+        }
+    </script>
+}

@@ -1,0 +1,18 @@
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Models\bin\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.deps.json
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Models\bin\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.dll
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Models\bin\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.pdb
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.csprojAssemblyReference.cache
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.AssemblyInfoInputs.cache
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.AssemblyInfo.cs
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.csproj.CoreCompileInputs.cache
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.dll
+D:\PROJECT\EXPRESS\MvcAngular\VK1.SCGE.Safety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.pdb
+C:\Users\SCG EXPRESS\Git\MvcAndAngularForSCGESafety\VK1.SCGE.Safety.Models\bin\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.deps.json
+C:\Users\SCG EXPRESS\Git\MvcAndAngularForSCGESafety\VK1.SCGE.Safety.Models\bin\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.dll
+C:\Users\SCG EXPRESS\Git\MvcAndAngularForSCGESafety\VK1.SCGE.Safety.Models\bin\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.pdb
+C:\Users\SCG EXPRESS\Git\MvcAndAngularForSCGESafety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.csprojAssemblyReference.cache
+C:\Users\SCG EXPRESS\Git\MvcAndAngularForSCGESafety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.AssemblyInfoInputs.cache
+C:\Users\SCG EXPRESS\Git\MvcAndAngularForSCGESafety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.AssemblyInfo.cs
+C:\Users\SCG EXPRESS\Git\MvcAndAngularForSCGESafety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.csproj.CoreCompileInputs.cache
+C:\Users\SCG EXPRESS\Git\MvcAndAngularForSCGESafety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.dll
+C:\Users\SCG EXPRESS\Git\MvcAndAngularForSCGESafety\VK1.SCGE.Safety.Models\obj\Release\netcoreapp3.1\VK1.SCGE.Safety.Models.pdb

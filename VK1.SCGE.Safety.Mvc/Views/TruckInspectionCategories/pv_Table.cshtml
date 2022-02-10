@@ -1,0 +1,31 @@
+﻿<p class="card-title lead text-center">
+    รายการตรวจหลัก
+</p>
+<div class="table-responsive">
+    <table id="datatable" class="table table-striped table-bordered table-sm table-hover">
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>ชื่อรายการตรวจหลัก</th>
+                <th>วันที่สร้างรายการตรวจ</th>
+                <th>สร้างโดย</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int itemNo = 1;}
+            @foreach (var item in ViewBag.Categories) {
+                <tr>
+                    <td>@(itemNo++)</td>
+                    <td>@item.Name</td>
+                    <td>@($"{item.CreatedDate:dd/MM/yyyy}")</td>
+                    <td>@item.CreatedBy</td>
+                    <td>
+                        <a title="ลบข้อมูล" class="btn btn-outline-danger px-2 py-1" onclick="return deleteItem(@item.TruckInspectionCategoryId)"><i class="far fa-trash-alt" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

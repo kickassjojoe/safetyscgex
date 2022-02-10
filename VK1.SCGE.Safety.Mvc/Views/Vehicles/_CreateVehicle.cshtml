@@ -1,0 +1,64 @@
+﻿@model Vehicle
+
+<form asp-action="Create" method="post" class="needs-validation" novalidate>
+    <div class="row" style="height:80px">
+        <div class="col-md-2 md-form">
+            <label for="PlateNumber">ทะเบียนรถ</label>
+            <input asp-for="PlateNumber" class="form-control" required />
+            <div class="invalid-feedback">
+                กรุณากรอกทะเบียน!
+            </div>
+        </div>
+        <div class="col-md-3 md-form mt-0">
+            <label class="mdb-main-label">ภาค</label>
+            <select asp-for="RegionId"
+                    asp-items="ViewBag.Regions"
+                    class="mdb-select validate md-form" searchable="Search here..">
+                <option value="" disabled selected>--เลือกภาค--</option>
+            </select>
+            <div class="invalid-feedback" style="margin-top:-30px" id="invalidRegion">
+                กรุณาเลือกภาค !
+            </div>
+        </div>
+        <div class="col-md-3 md-form mt-0">
+            <label class="mdb-main-label">สาขา</label>
+            <select asp-for="BranchCode"
+                    asp-items="ViewBag.Branches"
+                    class="mdb-select validate md-form" searchable="Search here..">
+                <option value="" disabled selected>--เลือกสาขา--</option>
+            </select>
+            <div class="invalid-feedback" style="margin-top:-30px" id="invalidBranch">
+                กรุณาเลือกสาขา !
+            </div>
+        </div>
+        <div class="col-md-4 md-form">
+            <label for="PlateNumber">GPS</label>
+            <input asp-for="GpsProvider" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 md-form">
+            <label for="PlateNumber">ยี่ห้อรถ</label>
+            <input asp-for="Brand" class="form-control" />
+        </div>
+        <div class="col-md-3 md-form">
+            <!-- Material inline 1 -->
+            <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" id="materialInline1" asp-for="VehicleType" value="Pickup">
+                <label class="form-check-label" for="materialInline1">ปิ๊กอัพ</label>
+            </div>
+
+            <!-- Material inline 2 -->
+            <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" id="materialInline2" asp-for="VehicleType" value="Pickup">
+                <label class="form-check-label" for="materialInline2">มอเตอร์ไซด์</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <button asp-action="Create" class="btn btn-primary" id="btnAdd">
+                <i class="far fa-save"></i>
+                Add
+            </button>
+        </div>
+    </div>
+</form>

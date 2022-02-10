@@ -1,0 +1,266 @@
+﻿@model InvestigateCard
+
+@{
+    var listCategory = (List<UnsafeCategory>)ViewBag.UnsafetyCategories;
+    var listItem = (List<UnsafeItem>)ViewBag.UnsafeItem;
+    var dictionary = new Dictionary<UnsafeCategoryDto, List<UnsafeItemDto>>();
+
+    foreach (var item in listCategory) {
+        dictionary.Add(new UnsafeCategoryDto { Code = item.UnsafeCategoryCode, Name = item.Name, UnsafeType = item.UnsafeType },
+               listItem.Where(x => x.UnsafeCategoryCode == item.UnsafeCategoryCode)
+               .Select(x => new UnsafeItemDto { Code = x.UnsafeItemCode, Name = x.Name }).ToList()
+    );
+    }
+
+
+
+}
+<input type="hidden" asp-for="PartFive.CreatedBy" />
+<input type="hidden" asp-for="PartFive.CreatedDate" />
+<input type="hidden" id="_accidentmode" value="@ViewBag.AccidentMode" />
+<input type="hidden" id="_actualUnsafeItem" value="@ViewBag.UnsafeItems" />
+
+<div class="form-row" style="height:30px">
+    <h6 class="px-3 mt-2 font-weight-bold"><u>ส่วนที่5 วิเคราะห์สาเหตุของอุบัติเหต (Unsafe Act.การกระทำที่ไม่ปลอดภัย)</u></h6>
+    <input type="hidden" asp-for="PartFive.Remark" />
+</div>
+<div class="form-row mb-5">
+    <div class="float-left w-50">
+        <h6 class="font-weight-bold">Unsafe Act. (การขับรถ)</h6>
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.UnsafeAction && x.Key.Code == "100")) {
+            <div class="font-weight-bold">@item.Key.Name</div>
+            @foreach (var v in item.Value) {
+                <div class="p-0 ml-2">
+                    <!-- Material unchecked -->
+                    <div class="form-check p-0">
+                        <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"100_{v.Code}")" name="c100">
+                        <label class="form-check-label" for="@v.Code">@v.Name</label>
+                    </div>
+                </div>
+            }
+            <div style="height:15px"></div>
+        }
+
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.UnsafeAction && x.Key.Code == "200")) {
+            <div class="font-weight-bold">@item.Key.Name</div>
+            @foreach (var v in item.Value) {
+                if (v.Code == "216") {
+                    <div class="form-check form-check-inline ml-2 mb-0">
+                        <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"200_{v.Code}")" name="c200">
+                        <label class="form-check-label" for="@v.Code">@v.Name</label>
+                    </div>
+                    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+                        <input class="form-control px-4 mb-0" name="description" />
+                    </div>
+
+                } else {
+                    <div class="p-0 m-0">
+                        <div class="p-0 ml-2 mb-0">
+                            <!-- Material unchecked -->
+                            <div class="form-check p-0 mb-0">
+                                <input type="checkbox" class="form-check-input mb-0" id="@v.Code" value="@($"200_{v.Code}")" name="c200">
+                                <label class="form-check-label" for="@v.Code">@v.Name</label>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.UnsafeAction && x.Key.Code == "300")) {
+            <div class="font-weight-bold">@item.Key.Name</div>
+            @foreach (var v in item.Value) {
+                if (v.Code == "311") {
+                    <div class="form-check form-check-inline ml-2 mb-0">
+                        <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"300_{v.Code}")" name="c300">
+                        <label class="form-check-label" for="@v.Code">@v.Name</label>
+                    </div>
+                    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+                        <input class="form-control px-4 mb-0" name="description" />
+                    </div>
+                } else {
+                    <div class="p-0 m-0">
+                        <div class="p-0 ml-2">
+                            <!-- Material unchecked -->
+                            <div class="form-check p-0">
+                                <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"300_{v.Code}")" name="c300">
+                                <label class="form-check-label" for="@v.Code">@v.Name</label>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.UnsafeAction && x.Key.Code == "400")) {
+            <div class="font-weight-bold">@item.Key.Name</div>
+            @foreach (var v in item.Value) {
+                <div class="p-0 m-0">
+                    <div class="p-0 ml-2">
+                        <!-- Material unchecked -->
+                        <div class="form-check p-0">
+                            <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"400_{v.Code}")" name="c400">
+                            <label class="form-check-label" for="@v.Code">@v.Name</label>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div style="height:15px"></div>
+        }
+    </div>
+
+    <div class="float-right w-50">
+        <h6 class="font-weight-bold">Unsafe Act. (คลังสินค้า, สาขา และออฟฟิต)</h6>
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.UnsafeAction && x.Key.Code == "500")) {
+            <div class="font-weight-bold">@item.Key.Name</div>
+            @foreach (var v in item.Value) {
+                <div class="p-0 m-0">
+                    <div class="p-0 ml-2">
+                        <!-- Material unchecked -->
+                        <div class="form-check p-0">
+                            <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"500_{v.Code}")" name="c500">
+                            <label class="form-check-label" for="@v.Code">@v.Name</label>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div style="height:15px"></div>
+        }
+
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.UnsafeAction && x.Key.Code == "600")) {
+            <div class="font-weight-bold">@item.Key.Name</div>
+            @foreach (var v in item.Value) {
+                if (v.Code == "619") {
+                    <div class="form-check form-check-inline ml-2 mb-0">
+                        <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"600_{v.Code}")" name="c600">
+                        <label class="form-check-label" for="@v.Code">@v.Name</label>
+                    </div>
+                    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+                        <input class="form-control px-4 mb-0" name="description" />
+                    </div>
+                } else {
+                    <div class="p-0 m-0">
+                        <div class="p-0 ml-2">
+                            <!-- Material unchecked -->
+                            <div class="form-check p-0">
+                                <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"600_{v.Code}")" name="c600">
+                                <label class="form-check-label" for="@v.Code">@v.Name</label>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.UnsafeAction && x.Key.Code == "700")) {
+            <div class="font-weight-bold">@item.Key.Name</div>
+            @foreach (var v in item.Value) {
+                <div class="p-0 m-0">
+                    <div class="p-0 ml-2">
+                        <!-- Material unchecked -->
+                        <div class="form-check p-0">
+                            <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"700_{v.Code}")" name="c700">
+                            <label class="form-check-label" for="@v.Code">@v.Name</label>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+    <div class="form-row" style="height:30px">
+        <h6 class="px-3 mt-2 font-weight-bold"><u>ส่วนที่5 วิเคราะห์สาเหตุของอุบัติเหต (Unsafe Condition สภาพแวดล้อม เครื่องมืออุปกรณ์ที่ไม่ปลอดภัย)</u></h6>
+    </div>
+
+    <div class="float-left w-50">
+        <h6 class="font-weight-bold">Unsafe Condition(การขับรถ)</h6>
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.UnsafeCondition && x.Key.Code == "800")) {
+            @foreach (var v in item.Value) {
+                if (v.Code == "808") {
+                    <div class="form-check form-check-inline ml-2 mb-0">
+                        <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"800_{v.Code}")" name="c800">
+                        <label class="form-check-label" for="@v.Code">@v.Name</label>
+                    </div>
+                    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+                        <input class="form-control px-4 mb-0" name="description" />
+                    </div>
+                } else if (v.Code == "813") {
+                    <div class="form-check form-check-inline ml-2 mb-0">
+                        <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"800_{v.Code}")" name="c800">
+                        <label class="form-check-label" for="@v.Code">@v.Name</label>
+                    </div>
+                    <div class="md-form form-check form-check-inline" style="margin-top:-10px">
+                        <input class="form-control px-4 mb-0" name="description" />
+                    </div>
+                } else {
+                    <div class="p-0 ml-2">
+                        <!-- Material unchecked -->
+                        <div class="form-check p-0">
+                            <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"800_{v.Code}")" name="c800">
+                            <label class="form-check-label" for="@v.Code">@v.Name</label>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+    <div class="float-right w-50">
+        <h6 class="font-weight-bold">Unsafe Condition(คลังสินค้า, สาขา และออฟฟิต)</h6>
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.UnsafeCondition && x.Key.Code == "900")) {
+            @foreach (var v in item.Value) {
+                if (v.Code == "915") {
+                    <div class="form-check form-check-inline ml-2 mb-0">
+                        <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"900_{v.Code}")" name="c900">
+                        <label class="form-check-label" for="@v.Code">@v.Name</label>
+                    </div>
+                    <div class="md-form form-check form-check-inline" style="margin-top:-10px" disabled>
+                        <input class="form-control px-4 mb-0" name="description" />
+                    </div>
+                } else {
+                    <div class="p-0 ml-2">
+                        <!-- Material unchecked -->
+                        <div class="form-check p-0">
+                            <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"900_{v.Code}")" name="c900" disabled>
+                            <label class="form-check-label" for="@v.Code">@v.Name</label>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+    </div>
+</div>
+<div class="row" style="height:1420px"></div>
+
+<div class="form-row mb-5 mt-4">
+    <div class="float-left w-50">
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.ปัจจัยที่ไม่สามารถควบคุมได้ && x.Key.Code == "U00")) {
+            <div class="font-weight-bold">@item.Key.Name</div>
+            @foreach (var v in item.Value) {
+                <div class="p-0 ml-2">
+                    <div class="form-check p-0">
+                        <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"U00_{v.Code}")" name="u00">
+                        <label class="form-check-label" for="@v.Code">@v.Name</label>
+                    </div>
+                </div>
+            }
+            <div style="height:15px"></div>
+        }
+    </div>
+    <div class="float-right w-50">
+        @foreach (var item in dictionary.Where(x => x.Key.UnsafeType == UnsafeType.ปัจจัยที่ไม่สามารถควบคุมได้ && x.Key.Code == "V00")) {
+            <div class="font-weight-bold">@item.Key.Name</div>
+            @foreach (var v in item.Value) {
+                <div class="p-0 ml-2">
+                    <div class="form-check p-0">
+                        <input type="checkbox" class="form-check-input" id="@v.Code" value="@($"V00_{v.Code}")" name="v00">
+                        <label class="form-check-label" for="@v.Code">@v.Name</label>
+                    </div>
+                </div>
+            }
+            <div style="height:15px"></div>
+        }
+    </div>
+</div>
+
+<script src="~/js/partFiveEditScript.js" asp-append-version="true"></script>

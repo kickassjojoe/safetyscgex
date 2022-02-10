@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<p class="mt-2">
+    <span class="text-muted"><i class="fa fa-list"></i> เอกสารใบCAR for approve </span>
+    <div id="allcar"> @{ await Html.RenderPartialAsync("_AllCAR");}</div>
+</p>
+
+@{await Html.RenderPartialAsync("_Messages");}
+
+@*<div id="data">
+        @{await Html.RenderPartialAsync("_Table"); }
+    </div>*@
+
+<!-- Button trigger modal -->
+<!-- Central Modal Small -->
+<div class="modal fade" id="centralModalLg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+    <!-- Change class .modal-sm to change the size of the modal -->
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="data">
+                    <partial name="_Table" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Central Modal Small -->
+@section Styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" />
+
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.css" rel="stylesheet" />
+    <style>
+        .ui-autocomplete-loading {
+            background: white url('images/loading.gif') right center no-repeat;
+        }
+
+        /*body {*/
+            /* Margin bottom by footer height */
+            /*margin-bottom: 60px;
+            font-family: Prompt, sans-serif;
+            min-height: 75rem;*/
+            /*padding-top: 4.5rem;*/
+        /*}*/
+
+        a:hover {
+            cursor: pointer
+        }
+    </style>
+}
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+
+    <script src="~/lib/bootstrap/dist/js/mdb.min.js"></script>
+
+    <script>
+        $('#datatable').DataTable();
+
+        $("#carcode").autocomplete({
+            source: function (request, response) {
+                const prefix = $("#carcode").val();
+                const url = `/CARApproves/GetAllCAR?prefix=${prefix}`;
+                $.get(url).then(res => {
+                    response($.map(res, function (item) {
+                        return { label: item.carCode, value: item.carCode };
+                    }))
+                });
+            },
+            minLength: 6
+        });
+
+        function fnCAR() {
+            const id = $('#carcode').val();
+            const url = `/CARApproves/GetAllCARItem/${id}`;
+
+            $.get(url, res => {
+                $('#data').html(res);
+            }).done(() => {
+                const c = $('#count').val();
+                if (c > 0) {
+                    alertify.success('Done');
+                } else {
+                    alertify.error('Data not found.');
+                }
+            });
+        }
+
+        function fnApprove(CARCode) {
+            const id = CARCode;
+            const url = `/CARApproves/GetAllCARItem/${id}`;
+
+            $.get(url, res => {
+                $('#centralModalLg').modal('show');
+                $('#myModalLabel').html(id);
+                $('#data').html(res);
+            }).done(() => {
+                const c = $('#count').val();
+                if (c > 0) {
+                    alertify.success('Done');
+                } else {
+                    alertify.error('Data not found.');
+                }
+            });
+
+        }
+    </script>
+
+}

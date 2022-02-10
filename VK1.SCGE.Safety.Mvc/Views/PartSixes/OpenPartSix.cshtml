@@ -1,0 +1,120 @@
+﻿@model List<PartSixViewModel>
+
+@{
+    ViewData["Title"] = "OpenPartSix";
+}
+
+<div class="mt-4">
+    <h5>
+        ส่วนที่ 6 สรุปสาเหตุที่พบและมาตรการป้องกันที่ดำเนินการ |
+        <a asp-action="Index"
+           asp-controller="PartSixes">
+            กลับรายการส่วนที่1-5
+        </a>
+    </h5>
+</div>
+
+<form class="needs-validation" novalidate method="post">
+    <input type="hidden" name="investigateCardId" value="@ViewBag.InvestigateCardId"/>
+    <input type="hidden" name="branchCode" value="@ViewBag.BranchCode" />
+    <input type="hidden" name="createOrEdit" value="@ViewBag.CreateOrEdit"/>
+    <input type="hidden" name="previousDamage" value="@ViewBag.Previous"/>
+    <div class="mt-2">
+        <table class="table table-bordered table-sm">
+            <thead class="black text-white">
+                <tr>
+                    <th colspan="6" class="text-center">ส่วนที่ 6 สรุปสาเหตุที่พบและมาตรการป้องกันที่ดำเนินการ</th>
+                </tr>
+                <tr class="text-center">
+                    <th>ข้อที่</th>
+                    <th>ประเภท (Act./Condition)</th>
+                    <th>รายการของสาเหตุที่พบ</th>
+                    <th>มาตรการป้องกันที่ดำเนินการ (หัวหน้างานเขียนสิ่งที่จำทำ)</th>
+                    <th>ผู้รับผิดชอบ</th>
+                    <th>กำหนดแล้วเสร็จ</th>
+                </tr>
+            </thead>
+            @{ int itemNo = 1;}
+            @foreach (var item in Model) {
+                <tr>
+                    <td style="width:5%">@(itemNo++)</td>
+                    <td style="width:10%">@item.UnsafeType</td>
+                    <td style="width:25%;white-space:pre-wrap">@item.UnsafeItemName</td>
+                    <td class="py-0">
+                        <div class="md-form py-0">
+                            <textarea type="text" id="@itemNo" name="solution" class="md-textarea form-control" rows="3" required></textarea>
+                            <input type="hidden" name="unsafeItemCode" value="@item.UnsafeItemCode" class="form-control px-3">
+                            <input type="hidden" name="unsafeItemName" value="@item.UnsafeItemName" class="form-control px-3">
+                        </div>
+                    </td>
+                    <td>
+                        @item.PersonResponse
+                        <input type="hidden" name="presonResponse" value="@item.PersonResponse" />
+                    </td>
+                    <td class="py-0">
+                        <div class="md-form input-with-post-icon datepicker">
+                            <input placeholder="Select date" type="date" name="solutionDate" class="form-control pl-0" style="width:140px;text-align:right" required>
+                        </div>
+                    </td>
+                </tr>
+            }
+            <tfoot>
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <button class="btn btn-primary" id="btnSave"
+                                asp-action="AddPartSix"
+                                asp-controller="PartSixes">
+                            Save
+                        </button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+
+@section Styles{
+    <style>
+        .md-form.input-with-post-icon .form-control {
+            padding-right: 0rem !important;
+            line-height: 1;
+            text-align: right
+        }
+
+        .md-form {
+            margin-top: 0rem;
+            margin-bottom: 0rem;
+        }
+
+        input.form-control.pl-0 {
+            padding: 15px 0px 0px 0px !important;
+        }
+    </style>
+}
+
+@section Scripts{
+    <script>
+        //
+        $('document').ready(function () {
+            fnAlert('@TempData["Msg"]');
+        });
+
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+}

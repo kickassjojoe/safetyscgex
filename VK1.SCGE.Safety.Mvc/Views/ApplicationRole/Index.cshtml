@@ -1,0 +1,104 @@
+﻿@model ApplicationRole
+
+<div class="row mt-3">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 class="card-title lead text-left text-muted">
+                    <i class="fas fa-plus-square-o"></i> สร้างมาสเตอร์Role
+                </h5>
+                <partial name="_Messages" />
+                <partial name="_CreateRole" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow px-3">
+            <p class="card-title lead text-center pt-1 pb-0">
+                มาสเตอร์Role
+            </p>
+            <div class="border-bottom mb-2"></div>
+            <div id="data">
+                <partial name="_Table" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section styles{
+    <link href="~/lib/bootstrap/dist/css/mdb-pro.min.css" rel="stylesheet" />
+    <style>
+        /*body {*/
+            /* Margin bottom by footer height */
+            /*margin-bottom: 60px;
+            font-family: Prompt, sans-serif;
+            min-height: 75rem;*/
+            /*padding-top: 4.5rem;*/
+        /*}*/
+
+        a:hover {
+            cursor: pointer
+        }
+    </style>
+}
+@section scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+        $('#datatable').DataTable();
+
+        function deleteItem(id) {
+            alertify.confirm('Delete', 'Are you sure you want to delete this (Y/N)?',
+                function () {
+                    const url = `/ApplicationRole/Delete/${id}`;
+                    $.post(url).then(res => {
+                        if (res.error) {
+                            const alert = res.error;
+                            alertify.error(alert.toString());
+                        } else {
+                            const getUrl = '/ApplicationRole/GetAll';
+                            $.get(getUrl).then((res) => {
+                                $('#data').html(res);
+                                $('#datatable').DataTable();
+                            }).done(() => {
+                                $('#RoleName').val('');
+                                $('#Description').val('');
+                                alertify.success('Deleted!');
+                            })
+                        }
+                    })
+                    //  window.location.href = url;
+                },
+                function () {
+                    alertify.error('Cancel')
+                });
+        }
+
+        $('#btnCreateRole').click(() => {
+            const url = '/ApplicationRole/Create';
+            const data = {
+                RoleName: $('#RoleName').val(),
+                Description: $('#Description').val(),
+            };
+            $.post(url, data).then(res => {
+                if (res.error) {
+                    const alert = res.error;
+                    alertify.error(alert.toString());
+                } else {
+                    const getUrl = '/ApplicationRole/GetAll';
+                    $.get(getUrl).then((res) => {
+                        $('#data').html(res);
+                        $('#datatable').DataTable();
+                    }).done(() => {
+                        $('#RoleName').val('');
+                        $('#Description').val('');
+                        alertify.success('Successfully!');
+                    })
+                }
+            })
+        });
+
+    </script>
+}
